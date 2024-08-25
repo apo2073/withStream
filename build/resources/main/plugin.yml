@@ -1,0 +1,25 @@
+name: WithChzzk
+version: 1.0
+main: kr.apo2073.chzzk.Chk
+api-version: '1.20'
+authors: [ 아포칼립스 ]
+commands:
+  치지직:
+    description: 치지직 채널 등록 기본 명령어
+#  투네이션:
+#      description: 투네이션 채널 등록 기본 명령어
+  reloadWS:
+    description: 플러그인 config 리로드 명령어
+libraries:
+  - org.jetbrains.kotlin:kotlin-stdlib-jdk8:2.0.0
+  - com.squareup.okhttp3:okhttp:4.9.3
+  - org.java-websocket:Java-WebSocket:1.5.2
+#  - io.github.R2turnTrue:chzzk4j:0.0.9
+
+softdepend:
+  - PlaceHolderAPI
+permissions:
+  chk.*:
+    children:
+      - chk.channel
+      - chk.reload

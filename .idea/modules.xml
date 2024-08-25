@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Chzzk.iml" filepath="$PROJECT_DIR$/.idea/modules/Chzzk.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Chzzk.main.iml" filepath="$PROJECT_DIR$/.idea/modules/Chzzk.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Chzzk.test.iml" filepath="$PROJECT_DIR$/.idea/modules/Chzzk.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/WithStreaming.main.iml" filepath="$PROJECT_DIR$/.idea/modules/WithStreaming.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/WithStreaming.test.iml" filepath="$PROJECT_DIR$/.idea/modules/WithStreaming.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/kr.apo2073.Chzzk.main.iml" filepath="$PROJECT_DIR$/.idea/modules/kr.apo2073.Chzzk.main.iml" />
+    </modules>
+  </component>
+</project>
