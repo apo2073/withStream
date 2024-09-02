@@ -15,15 +15,22 @@
 
 # {user}: 닉네임
 # {msg}: 메세지
-# {chs}: 치즈
+# {paid}: 후원 금액
+# {plat} 플렛폼
 # --/채팅/--
 chat:
-  format: "&f {user} : {msg} &7- &l&a[ 치지직 ]"
+  format: "&f {user} : {msg} &7- &l[ {plat} ]"
 # --/후원/--
 donation:
   format: "&e{chs}치즈&7>&f{user} &d:: &b{msg} &7- &l&6[ 후원 ]"
   view-title: true
   tformat: "&e{chs}&f치즈 후원!"
+
+# --/플렛폼 표시 설정/--
+# color가 true일때 {plat}이 치지직이라면 "치지직"이라는 글자가 초록색으로 표기됩니다.
+color: true
+# 치직일 경우 Chzzk으로 표시됨
+en: false
 
 #
 # --/후원 이벤트/--

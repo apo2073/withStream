@@ -19,8 +19,10 @@ import java.io.File
 
 class ChannelCmds(val plugin: JavaPlugin) : TabExecutor {
     init {
-        plugin.getCommand("치지직")?.setExecutor(this)
-        plugin.getCommand("치지직")?.tabCompleter = this
+        plugin.getCommand("치지직")?.apply {
+            setExecutor(this@ChannelCmds)
+            tabCompleter=this@ChannelCmds
+        }
         plugin.getCommand("투네이션")?.setExecutor(this)
         plugin.getCommand("투네이션")?.tabCompleter = this
     }
@@ -42,6 +44,7 @@ class ChannelCmds(val plugin: JavaPlugin) : TabExecutor {
             sender.sendMessage("§l[§c*§f]§r /플렛폼 등록 <채널 이름> <채널 ID(또는 key)>")
             return false
         }
+
         val file=if (label.contains("치지직")) {
             File("${plugin.dataFolder}/chzzk_channel", "${sender.uniqueId}.yml")
         } else {
@@ -64,6 +67,13 @@ class ChannelCmds(val plugin: JavaPlugin) : TabExecutor {
                 || tn[sender.uniqueId]!=null) {
                 sender.sendMessage(
                     Component.text("§l[§c*§f]§r 한 채널만 등록할 수 있습니다."))
+                return true
+            }
+
+            if(chk.config.get(chID)!=null) {
+                chk.reloadConfig()
+                sender.sendMessage(
+                    Component.text("§l[§c*§f]§r 이미 다른 플레이어가 등록한 채널입니다!"))
                 return true
             }
 
@@ -92,11 +102,13 @@ class ChannelCmds(val plugin: JavaPlugin) : TabExecutor {
             if (label.contains("치지직")){
                 cht[sender.uniqueId]?.closeBlocking()
                 cht[sender.uniqueId]?.closeAsync()
+                chk.config.set(cht.get(sender.uniqueId)?.channelId.toString(), null)
                 chzzk.remove(sender.uniqueId)
                 cht.remove(sender.uniqueId)
             }
             if (label.contains("투네")) {
                 tn[sender.uniqueId]
+                chk.config.set(tn.get(sender.uniqueId).toString(), null)
                 tn.remove(sender.uniqueId)
             }
             file.delete()

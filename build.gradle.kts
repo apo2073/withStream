@@ -37,6 +37,7 @@ dependencies {
     implementation("com.googlecode.json-simple:json-simple:1.1.1")
     implementation("com.squareup.okhttp3:okhttp:4.9.3")
     implementation("org.java-websocket:Java-WebSocket:1.5.2")
+
 }
 
 val targetJavaVersion = 17

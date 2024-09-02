@@ -27,8 +27,12 @@ class PlaceHolder(private val plugin: JavaPlugin): PlaceholderExpansion() {
         if (identifier.equals("sponsor")) {
             val file= File("${plugin.dataFolder}/chzzk_channel", "${player.uniqueId}.yml")
             val config: FileConfiguration = YamlConfiguration.loadConfiguration(file)
-            return config.getStringList("sponsor").joinToString()
+            return config.getStringList("sponsor").joinToString(", ")
             //return "sponsor"
+        }
+
+        if (identifier.equals("donatedC")) {
+            return chk.config.getStringList("donated-channel").joinToString(", ")
         }
 
         return null

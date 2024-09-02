@@ -2,9 +2,9 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <bytecodeTargetLevel target="21">
-      <module name="WithChzzk" target="17" />
-      <module name="WithChzzk.main" target="17" />
-      <module name="WithChzzk.test" target="17" />
+      <module name="WithStreaming" target="17" />
+      <module name="WithStreaming.main" target="17" />
+      <module name="WithStreaming.test" target="17" />
     </bytecodeTargetLevel>
   </component>
 </project>

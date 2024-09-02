@@ -9,14 +9,4 @@ import java.io.File
 
 class PlayerEvent(private var plugin: JavaPlugin):Listener {
 
-    @EventHandler
-    fun onPlayerQuitEvent(e:PlayerQuitEvent) {
-        val uuid=e.player.uniqueId
-        if (cht[uuid]!=null) {
-            val file= File("${plugin.dataFolder}/chzzk_channel", "${e.player.uniqueId}.yml")
-            cht[e.player.uniqueId]?.closeBlocking()
-            cht[e.player.uniqueId]?.closeAsync()
-            file.delete()
-        }
-    }
 }

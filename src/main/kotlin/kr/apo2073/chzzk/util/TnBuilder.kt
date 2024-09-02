@@ -40,6 +40,19 @@ fun TonBuilder(uuid: UUID, key: String) {
             } else {
                 m.nickName ?: "[ 익명 ]"
             })
+            .replace("{plat}", if (chk.config.getBoolean("color")) {
+                    if (chk.config.getBoolean("en")) {
+                        "§bToonation§f"
+                    } else {
+                        "§b투네이션§f"
+                    }
+                } else {
+                if (chk.config.getBoolean("en")) {
+                    "Toonation"
+                } else {
+                    "투네이션"
+                }
+                })
             .replace(Regex("\\{[^}]*\\}"), "§7(이모티콘)§f").trim()
         val channelName= "§l[ §r${config.getString("channelName")?.replace("&","§")
             ?: "알 수 없는 채널"} §f§l]§r"
@@ -51,6 +64,7 @@ fun TonBuilder(uuid: UUID, key: String) {
             Bukkit.broadcast(Component.text("${channelName}${chatFormat}"))
         }
     }
+
     tn[uuid]?.subscribeDonation { d->
         if (!chk.config.getBoolean("후원")) return@subscribeDonation
         val file= File("${chk.dataFolder}/chzzk_channel", "${uuid}.yml")
@@ -66,6 +80,19 @@ fun TonBuilder(uuid: UUID, key: String) {
             ?.replace("{user}", d.nickName ?: "[ 익명 ]")
             ?.replace("{chs}", d.amount.toString())
             ?.replace(Regex("\\{[^}]*\\}"), "(이모티콘)")?.trim()
+            ?.replace("{plat}", if (chk.config.getBoolean("color")) {
+            if (chk.config.getBoolean("en")) {
+                "§bToonation§f"
+            } else {
+                "§b투네이션§f"
+            }
+            } else {
+            if (chk.config.getBoolean("en")) {
+                "Toonation"
+            } else {
+                "투네이션"
+            }
+            })
 
         if (message=="streamer") {
             val player=Bukkit.getPlayer(uuid) ?: return@subscribeDonation
@@ -75,7 +102,21 @@ fun TonBuilder(uuid: UUID, key: String) {
                 ?.replace("&","§")
                 ?.replace("{msg}", d.comment)
                 ?.replace("{user}", d.nickName ?: "[ 익명 ]")
-                ?.replace("{chs}", d.amount.toString()) ?: return@subscribeDonation
+                ?.replace("{chs}", d.amount.toString())
+                ?.replace("{plat}", if (chk.config.getBoolean("color")) {
+                    if (chk.config.getBoolean("en")) {
+                        "§bToonation§f"
+                    } else {
+                        "§b투네이션§f"
+                    }
+                } else {
+                    if (chk.config.getBoolean("en")) {
+                        "Toonation"
+                    } else {
+                        "투네이션"
+                    }
+                })
+                ?: return@subscribeDonation
             val title= Title.title(Component.text(""), Component.text(donationT)
                 , Title.Times.times(Duration.ofSeconds(0), Duration.ofSeconds(5), Duration.ofSeconds(0)))
             if (chk.config.getBoolean("view-title")) player.showTitle(title)

@@ -5,9 +5,11 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/Chzzk.iml" filepath="$PROJECT_DIR$/.idea/modules/Chzzk.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/Chzzk.main.iml" filepath="$PROJECT_DIR$/.idea/modules/Chzzk.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/Chzzk.test.iml" filepath="$PROJECT_DIR$/.idea/modules/Chzzk.test.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/WithStreaming.main.iml" filepath="$PROJECT_DIR$/.idea/modules/WithStreaming.main.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/WithStreaming.test.iml" filepath="$PROJECT_DIR$/.idea/modules/WithStreaming.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/WithChzzk.main.iml" filepath="$PROJECT_DIR$/.idea/modules/WithChzzk.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/WithChzzk.test.iml" filepath="$PROJECT_DIR$/.idea/modules/WithChzzk.test.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/kr.apo2073.Chzzk.main.iml" filepath="$PROJECT_DIR$/.idea/modules/kr.apo2073.Chzzk.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/kr.apo2073.WithChzzk.main.iml" filepath="$PROJECT_DIR$/.idea/modules/kr.apo2073.WithChzzk.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/kr.apo2073.WithChzzk.test.iml" filepath="$PROJECT_DIR$/.idea/modules/kr.apo2073.WithChzzk.test.iml" />
     </modules>
   </component>
 </project>
