@@ -1,4 +1,4 @@
-name: WithChzzk
+name: WithStreaming
 version: 1.0
 main: kr.apo2073.chzzk.Chk
 api-version: '1.20'
@@ -14,7 +14,6 @@ libraries:
   - org.jetbrains.kotlin:kotlin-stdlib-jdk8:2.0.0
   - com.squareup.okhttp3:okhttp:4.9.3
   - org.java-websocket:Java-WebSocket:1.5.2
-#  - io.github.R2turnTrue:chzzk4j:0.0.9
 
 softdepend:
   - PlaceHolderAPI

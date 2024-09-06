@@ -2,6 +2,7 @@ package kr.apo2073.chzzk
 
 import com.outstandingboy.donationalert.platform.Toonation
 import kr.apo2073.chzzk.cmds.ChannelCmds
+import kr.apo2073.chzzk.cmds.DonationEventCmd
 import kr.apo2073.chzzk.cmds.ReloadCmd
 import kr.apo2073.chzzk.events.ChzzkListeners
 import kr.apo2073.chzzk.events.PlayerEvent
@@ -40,6 +41,7 @@ class Chk : JavaPlugin() {
         ChannelCmds(this)
         ReloadCmd(this)
         PlayerEvent(this)
+        DonationEventCmd(this)
 
         if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
             val placeholderExpansion = PlaceHolder(this)

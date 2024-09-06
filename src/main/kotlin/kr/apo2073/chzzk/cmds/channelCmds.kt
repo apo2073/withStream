@@ -4,7 +4,7 @@ import kr.apo2073.chzzk.Chk
 import kr.apo2073.chzzk.cht
 import kr.apo2073.chzzk.chzzk
 import kr.apo2073.chzzk.tn
-import kr.apo2073.chzzk.util.TonBuilder
+import kr.apo2073.chzzk.util.*
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.event.HoverEvent
 import net.kyori.adventure.text.format.TextDecoration
@@ -16,6 +16,7 @@ import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.entity.Player
 import org.bukkit.plugin.java.JavaPlugin
 import java.io.File
+import java.util.*
 
 class ChannelCmds(val plugin: JavaPlugin) : TabExecutor {
     init {
@@ -52,6 +53,10 @@ class ChannelCmds(val plugin: JavaPlugin) : TabExecutor {
         }
 
         val config: FileConfiguration = YamlConfiguration.loadConfiguration(file)
+        val uuid= sender.uniqueId
+
+        DconfigReload()
+        CconfigReload()
         if (args[0]=="등록"){
             val chn: String
             val chID: String
@@ -70,7 +75,11 @@ class ChannelCmds(val plugin: JavaPlugin) : TabExecutor {
                 return true
             }
 
-            if(chk.config.get(chID)!=null) {
+            CconfigReload()
+            if(Cconfig.get(chID)!=null
+                && cht[uuid]!=null
+                && chzzk[uuid]!=null
+                ) {
                 chk.reloadConfig()
                 sender.sendMessage(
                     Component.text("§l[§c*§f]§r 이미 다른 플레이어가 등록한 채널입니다!"))
@@ -92,23 +101,28 @@ class ChannelCmds(val plugin: JavaPlugin) : TabExecutor {
                 plugin.logger.warning(e.message)
             }
 
-            chk.config.set(chID, sender.uniqueId.toString())
-            chk.saveConfig()
+            Cconfig.set(chID, sender.uniqueId.toString())
+            connectionSave()
 
             if (label.contains("치지직")) chk.ChkBuilder(sender.uniqueId, chID)
             if (label.contains("투네")) TonBuilder(sender.uniqueId, chID)
         } else if (args[0]=="등록해제") {
-            sender.sendMessage("§l[§a*§f]§r 채널 ${config.get("channelName")}§f(이)가 등록이 해제되었습니다")
+            val channelN=config.get("channelName")
+            if (channelN==null) {
+                sender.sendMessage("§l[§c*§f]§r 등록된 채널이 없습니다")
+                return true
+            }
+            sender.sendMessage("§l[§a*§f]§r 채널 ${channelN}§f(이)가 등록이 해제되었습니다")
             if (label.contains("치지직")){
                 cht[sender.uniqueId]?.closeBlocking()
                 cht[sender.uniqueId]?.closeAsync()
-                chk.config.set(cht.get(sender.uniqueId)?.channelId.toString(), null)
+                Cconfig.set(cht[sender.uniqueId]?.channelId.toString(), null)
                 chzzk.remove(sender.uniqueId)
                 cht.remove(sender.uniqueId)
             }
             if (label.contains("투네")) {
                 tn[sender.uniqueId]
-                chk.config.set(tn.get(sender.uniqueId).toString(), null)
+                Cconfig.set(tn[sender.uniqueId].toString(), null)
                 tn.remove(sender.uniqueId)
             }
             file.delete()
@@ -118,6 +132,8 @@ class ChannelCmds(val plugin: JavaPlugin) : TabExecutor {
                 setting = args[2]
             } else {
                 sender.sendMessage("§l[§c*§f]§r/플렛폼 설정 <설정> <설정 값>")
+                sender.sendMessage("§l[§d*§f]§r/플렛폼 설정 채널이름 채널1")
+                sender.sendMessage("§l[§d*§f]§r/플렛폼 설정 메세지대상 모두에게")
                 return false
             }
 

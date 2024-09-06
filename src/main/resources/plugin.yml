@@ -1,9 +1,11 @@
-name: WithChzzk
+name: WithStreaming
 version: 1.0
 main: kr.apo2073.chzzk.Chk
 api-version: '1.20'
 authors: [ 아포칼립스 ]
 commands:
+  후원:
+    description: 후원 이벤트 명령어 설정 기본 명령어
   치지직:
     description: 치지직 채널 등록 기본 명령어
 #  투네이션:
@@ -14,7 +16,6 @@ libraries:
   - org.jetbrains.kotlin:kotlin-stdlib-jdk8:2.0.0
   - com.squareup.okhttp3:okhttp:4.9.3
   - org.java-websocket:Java-WebSocket:1.5.2
-#  - io.github.R2turnTrue:chzzk4j:0.0.9
 
 softdepend:
   - PlaceHolderAPI
@@ -23,3 +24,4 @@ permissions:
     children:
       - chk.channel
       - chk.reload
+      - chk.donation
