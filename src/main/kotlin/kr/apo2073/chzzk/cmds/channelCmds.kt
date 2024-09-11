@@ -16,7 +16,6 @@ import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.entity.Player
 import org.bukkit.plugin.java.JavaPlugin
 import java.io.File
-import java.util.*
 
 class ChannelCmds(val plugin: JavaPlugin) : TabExecutor {
     init {
@@ -68,7 +67,13 @@ class ChannelCmds(val plugin: JavaPlugin) : TabExecutor {
                 return false
             }
 
-            if ((cht[sender.uniqueId]!=null && chzzk[sender.uniqueId]!=null )
+            if (Cconfig.getString(chID)!=null) {
+                sender.sendMessage("§l[§c*§f]§r 이 채널은 이미 다른 플레이어가 등록한 채널입니다.")
+                return true
+            }
+
+            if ((cht[sender.uniqueId]!=null
+                        && chzzk[sender.uniqueId]!=null )
                 || tn[sender.uniqueId]!=null) {
                 sender.sendMessage(
                     Component.text("§l[§c*§f]§r 한 채널만 등록할 수 있습니다."))
@@ -94,12 +99,7 @@ class ChannelCmds(val plugin: JavaPlugin) : TabExecutor {
 
             config.set(chID, sender.uniqueId.toString())
             config.set(sender.uniqueId.toString(), chID)
-
-            try {
-                config.save(file)
-            } catch (e: Exception) {
-                plugin.logger.warning(e.message)
-            }
+            config.save(file)
 
             Cconfig.set(chID, sender.uniqueId.toString())
             connectionSave()
@@ -108,6 +108,7 @@ class ChannelCmds(val plugin: JavaPlugin) : TabExecutor {
             if (label.contains("투네")) TonBuilder(sender.uniqueId, chID)
         } else if (args[0]=="등록해제") {
             val channelN=config.get("channelName")
+            val channelId=config.getString("channelID")
             if (channelN==null) {
                 sender.sendMessage("§l[§c*§f]§r 등록된 채널이 없습니다")
                 return true
@@ -116,13 +117,15 @@ class ChannelCmds(val plugin: JavaPlugin) : TabExecutor {
             if (label.contains("치지직")){
                 cht[sender.uniqueId]?.closeBlocking()
                 cht[sender.uniqueId]?.closeAsync()
-                Cconfig.set(cht[sender.uniqueId]?.channelId.toString(), null)
+                Cconfig.set(channelId.toString(), null)
                 chzzk.remove(sender.uniqueId)
+                connectionSave()
                 cht.remove(sender.uniqueId)
             }
             if (label.contains("투네")) {
                 tn[sender.uniqueId]
                 Cconfig.set(tn[sender.uniqueId].toString(), null)
+                connectionSave()
                 tn.remove(sender.uniqueId)
             }
             file.delete()

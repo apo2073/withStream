@@ -44,3 +44,4 @@ en: false
 #
 donation-event:
 #  '1000': "kill {player}"
+#  '2000': "say a"

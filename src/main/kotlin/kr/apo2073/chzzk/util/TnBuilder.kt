@@ -21,7 +21,6 @@ fun TonBuilder(uuid: UUID, key: String) {
         if (!chk.config.getBoolean("채널")) return@subscribeMessage
         val file= File("${chk.dataFolder}/tn_channel", "${uuid}.yml")
         if (!file.exists()) return@subscribeMessage
-
         val config: FileConfiguration = YamlConfiguration.loadConfiguration(file)
         val sponsorL=config.getStringList("sponsor")
         val message=config.getString("message") ?: "streamer"
@@ -59,7 +58,6 @@ fun TonBuilder(uuid: UUID, key: String) {
         if (message.contains("streamer")) {
             val player= Bukkit.getPlayer(uuid)
             player?.sendMessage(Component.text("${channelName}${chatFormat}"))
-                ?: Bukkit.broadcast(Component.text("${channelName}${chatFormat}"))
         } else {
             Bukkit.broadcast(Component.text("${channelName}${chatFormat}"))
         }

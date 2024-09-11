@@ -30,5 +30,8 @@ fun CconfigReload() {
     filess= File("${Chk.instance!!.dataFolder}/chzzk_channel/"
         , "connection.yml")
     Cconfig= YamlConfiguration.loadConfiguration(filess)
+}
 
+fun removeCconfig() {
+    if (filess.exists()) filess.delete()
 }

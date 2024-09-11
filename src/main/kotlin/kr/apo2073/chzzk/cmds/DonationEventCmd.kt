@@ -1,6 +1,7 @@
 package kr.apo2073.chzzk.cmds
 
 import kr.apo2073.chzzk.Chk
+import kr.apo2073.lib.Plugins.msgPerfix
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.event.HoverEvent
 import net.kyori.adventure.text.format.TextDecoration
@@ -35,9 +36,11 @@ class DonationEventCmd(plugin: JavaPlugin): TabExecutor {
                 Component.text("§l[§c*§f]§r 올바른 금액을 입력하세요"))
             return true
         }
-        val command=p3.drop(0).joinToString(" ")
+        val command=p3.drop(1).joinToString(" ")
 
         chk.config.set("donation-event.$amount", command)
+        chk.saveConfig()
+        sender.sendMessage("§l[§a*§f]§r 후원 이벤트 §6${amount}§f을 명령어 §a${command}§f(으)로 설정했습니다")
 
         return true
     }

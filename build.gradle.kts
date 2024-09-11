@@ -27,7 +27,15 @@ dependencies {
 
     implementation(files("libs/chzzk4j-0.0.9.jar"))
     implementation(files("libs/DonationAlertAPI-1.1.0.jar"))
-    implementation(files("libs/aLib-1.0.2.jar"))
+    //implementation(files("libs/aLib-1.0.2.jar"))
+
+    implementation("com.github.apo2073:ApoLib:1.0.2")
+
+    implementation("org.slf4j:slf4j-api:2.0.7")
+
+
+    compileOnly("org.projectlombok:lombok:1.18.32")
+    annotationProcessor("org.projectlombok:lombok:1.18.32")
 
     implementation("me.clip:placeholderapi:2.11.6")
 

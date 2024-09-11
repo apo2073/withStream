@@ -6,12 +6,10 @@ import kr.apo2073.chzzk.cmds.DonationEventCmd
 import kr.apo2073.chzzk.cmds.ReloadCmd
 import kr.apo2073.chzzk.events.ChzzkListeners
 import kr.apo2073.chzzk.events.PlayerEvent
+import kr.apo2073.chzzk.util.Cconfig
 import kr.apo2073.chzzk.util.PlaceHolder
-import me.clip.placeholderapi.PlaceholderAPI
-import me.clip.placeholderapi.PlaceholderAPIPlugin
-import me.clip.placeholderapi.expansion.PlaceholderExpansion
+import kr.apo2073.chzzk.util.removeCconfig
 import net.kyori.adventure.text.Component
-import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder
 import org.bukkit.Bukkit
 import org.bukkit.configuration.file.FileConfiguration
 import org.bukkit.configuration.file.YamlConfiguration
@@ -52,15 +50,15 @@ class Chk : JavaPlugin() {
     }
 
     fun ChkBuilder(uuid:UUID, id: String) {
-        chzzk[uuid]=ChzzkBuilder()
-            .build() ?: return
-        val chz= chzzk[uuid] ?: return
-        var cht= cht[uuid]
         val player=Bukkit.getPlayer(uuid) ?:return
-        val ch= chz.getChannel(id) ?: return
-        val file= File("${this.dataFolder}/chzzk_channel", "${uuid}.yml")
-        val config: FileConfiguration = YamlConfiguration.loadConfiguration(file)
         try {
+            chzzk[uuid]=ChzzkBuilder()
+                .build() ?: return
+            val chz= chzzk[uuid] ?: return
+            var cht= cht[uuid]
+            val ch= chz.getChannel(id) ?: return
+            val file= File("${this.dataFolder}/chzzk_channel", "${uuid}.yml")
+            val config: FileConfiguration = YamlConfiguration.loadConfiguration(file)
             cht = chz.chat(id)?.withChatListener(ChzzkListeners(this))?.build()
             cht?.connectBlocking() ?: return
             player.sendMessage(Component.text("§l[§a*§f]§r 채널 ${ch.channelName}( ${ch.followerCount} 팔로워 )에 연결했습니다."))
@@ -74,11 +72,14 @@ class Chk : JavaPlugin() {
     companion object {
         var instance: Chk?= null
     }
+    var debug: Boolean = false
+    var random: Boolean = false
 
     override fun onDisable() {
         for (player in Bukkit.getOnlinePlayers()) {
             val uuid=player.uniqueId
             cht[uuid]?.closeBlocking() ?: continue
         }
+        removeCconfig()
     }
 }

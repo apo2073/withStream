@@ -4,6 +4,8 @@ main: kr.apo2073.chzzk.Chk
 api-version: '1.20'
 authors: [ 아포칼립스 ]
 commands:
+  후원:
+    description: 후원 이벤트 명령어 설정 기본 명령어
   치지직:
     description: 치지직 채널 등록 기본 명령어
 #  투네이션:
@@ -22,3 +24,4 @@ permissions:
     children:
       - chk.channel
       - chk.reload
+      - chk.donation
