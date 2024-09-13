@@ -12,7 +12,7 @@ import org.bukkit.plugin.java.JavaPlugin
 
 class ReloadCmd(plugin: JavaPlugin):CommandExecutor {
     init {
-        plugin.getCommand("reloadChzzk")?.setExecutor(this::onCommand)
+        plugin.getCommand("리로드")?.setExecutor(this::onCommand)
     }
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
         if (!sender.hasPermission("chk.reload")) {

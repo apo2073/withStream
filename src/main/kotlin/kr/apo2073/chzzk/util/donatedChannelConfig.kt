@@ -33,5 +33,7 @@ fun CconfigReload() {
 }
 
 fun removeCconfig() {
-    if (filess.exists()) filess.delete()
+    if (filess.exists()) {
+        filess.delete()
+    }
 }

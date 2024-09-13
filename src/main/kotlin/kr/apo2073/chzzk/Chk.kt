@@ -6,9 +6,7 @@ import kr.apo2073.chzzk.cmds.DonationEventCmd
 import kr.apo2073.chzzk.cmds.ReloadCmd
 import kr.apo2073.chzzk.events.ChzzkListeners
 import kr.apo2073.chzzk.events.PlayerEvent
-import kr.apo2073.chzzk.util.Cconfig
-import kr.apo2073.chzzk.util.PlaceHolder
-import kr.apo2073.chzzk.util.removeCconfig
+import kr.apo2073.chzzk.util.*
 import net.kyori.adventure.text.Component
 import org.bukkit.Bukkit
 import org.bukkit.configuration.file.FileConfiguration
@@ -31,6 +29,8 @@ class Chk : JavaPlugin() {
 
         logger.info("WithChzzk Made BY.아포칼립스")
         saveDefaultConfig()
+        DconfigReload()
+        CconfigReload()
 
         chzzk = mutableMapOf()
         cht = mutableMapOf()
@@ -65,7 +65,7 @@ class Chk : JavaPlugin() {
             config.save(file)
 
         } catch (e:Exception) {
-            player.sendMessage(Component.text(e.message.toString()))
+            player.sendMessage(Component.text("§l[§c*§f]§r ${e.message.toString()}"))
         }
     }
 
@@ -81,5 +81,7 @@ class Chk : JavaPlugin() {
             cht[uuid]?.closeBlocking() ?: continue
         }
         removeCconfig()
+        Bukkit.getScheduler().cancelTasks(this)
+        this.server.scheduler.cancelTasks(this)
     }
 }

@@ -10,7 +10,7 @@ commands:
     description: 치지직 채널 등록 기본 명령어
 #  투네이션:
 #      description: 투네이션 채널 등록 기본 명령어
-  reloadChzzk:
+  리로드:
     description: 플러그인 config 리로드 명령어
 libraries:
   - org.jetbrains.kotlin:kotlin-stdlib-jdk8:2.0.0

@@ -51,6 +51,9 @@ dependencies {
     implementation("com.google.apis:google-api-services-youtube:v3-rev20230816-2.0.0")
     implementation("com.google.http-client:google-http-client-jackson2:1.39.2")
 
+    implementation("com.squareup.retrofit2:retrofit:2.11.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.11.0")
+
 }
 
 val targetJavaVersion = 17
