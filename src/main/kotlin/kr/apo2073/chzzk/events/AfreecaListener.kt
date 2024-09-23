@@ -15,6 +15,7 @@ import java.util.*
 
 class AfreecaListener():AfreecatvListener {
     val chk=Chk.instance!!
+    val BoP=chk.config.getBoolean("BoolOrPay")
     override fun onMessageChat(e: MessageChatEvent) {
         chk.reloadConfig()
         DconfigReload()
@@ -43,9 +44,9 @@ class AfreecaListener():AfreecatvListener {
             })
             .replace("{plat}", if (chk.config.getBoolean("color")) {
                 if (chk.config.getBoolean("en")) {
-                    "§AfreecaTV§f"
+                    "§9AfreecaTV§f"
                 } else {
-                    "§아프리카§f"
+                    "§9아프리카§f"
                 }
             } else {
                 if (chk.config.getBoolean("en")) {
@@ -86,13 +87,17 @@ class AfreecaListener():AfreecatvListener {
             ?.replace("&","§")
             ?.replace("{msg}", e.message)
             ?.replace("{user}", e.nickname ?: "[ 익명 ]")
-            ?.replace("{chs}", e.balloonAmount.toString())
+            ?.replace("{paid}", if (BoP) {
+                e.balloonAmount.toString()
+            } else {
+                e.payAmount.toString()
+            })
             ?.replace(Regex("\\{[^}]*\\}"), "(이모티콘)")?.trim()
             ?.replace("{plat}", if (chk.config.getBoolean("color")) {
                 if (chk.config.getBoolean("en")) {
-                    "§AfreecaTV§f"
+                    "§9AfreecaTV§f"
                 } else {
-                    "§아프리카§f"
+                    "§9아프리카§f"
                 }
             } else {
                 if (chk.config.getBoolean("en")) {
@@ -110,12 +115,16 @@ class AfreecaListener():AfreecatvListener {
                 ?.replace("&","§")
                 ?.replace("{msg}", e.message)
                 ?.replace("{user}", e.nickname ?: "[ 익명 ]")
-                ?.replace("{chs}", e.balloonAmount.toString())
+                ?.replace("{paid}", if (BoP) {
+                    e.balloonAmount.toString()
+                } else {
+                    e.payAmount.toString()
+                })
                 ?.replace("{plat}", if (chk.config.getBoolean("color")) {
                     if (chk.config.getBoolean("en")) {
-                        "§AfreecaTV§f"
+                        "§9AfreecaTV§f"
                     } else {
-                        "§아프리카§f"
+                        "§9아프리카§f"
                     }
                 } else {
                     if (chk.config.getBoolean("en")) {
@@ -150,7 +159,11 @@ class AfreecaListener():AfreecatvListener {
         val eventCmd=chk.config.getString("donation-event.${e.balloonAmount}") ?: return
         eventCmd.replace("{player}", player.name)
             .replace("{msg}", e.message)
-            .replace("{paid}", e.balloonAmount.toString())
+            .replace("{paid}", if (BoP) {
+                e.balloonAmount.toString()
+            } else {
+                e.payAmount.toString()
+            })
             .replace("{streamer}", player.name)
 
         player.performCommand(eventCmd)

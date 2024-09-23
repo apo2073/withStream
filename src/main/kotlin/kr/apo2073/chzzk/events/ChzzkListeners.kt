@@ -94,7 +94,7 @@ class ChzzkListeners(private val plugin: JavaPlugin):ChatEventListener {
                 ?.replace("&","§")
                 ?.replace("{msg}", msg.content)
                 ?.replace("{user}", msg.profile?.nickname ?: "[ 익명 ]")
-                ?.replace("{chs}", msg.payAmount.toString())
+                ?.replace("{paid}", msg.payAmount.toString())
                 ?.replace(Regex("\\{[^}]*\\}"), "(이모티콘)")?.trim()
                 ?.replace("{plat}", if (chk.config.getBoolean("color")) {
                     if (kr.apo2073.chzzk.util.chk.config.getBoolean("en")) {
@@ -118,7 +118,7 @@ class ChzzkListeners(private val plugin: JavaPlugin):ChatEventListener {
                     ?.replace("&","§")
                     ?.replace("{msg}", msg.content)
                     ?.replace("{user}", msg.profile?.nickname ?: "[ 익명 ]")
-                    ?.replace("{chs}", msg.payAmount.toString())
+                    ?.replace("{paid}", msg.payAmount.toString())
                     ?.replace("{plat}", if (chk.config.getBoolean("color")) {
                         if (kr.apo2073.chzzk.util.chk.config.getBoolean("en")) {
                             "§aChzzk§f"
