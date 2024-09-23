@@ -1,13 +1,6 @@
 package kr.apo2073.chzzk.util
 
 import com.google.api.services.youtube.YouTube
-import kr.apo2073.chzzk.Chk
-import net.kyori.adventure.text.Component
-import org.bukkit.Bukkit
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.http.GET
-import retrofit2.http.Query
 import java.util.*
 
 var youtubeAPI="AIzaSyBpMcjduOo5VbaWa-ptNGuGsG323gaop60"

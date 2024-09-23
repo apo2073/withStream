@@ -6,7 +6,11 @@ import kr.apo2073.chzzk.cmds.DonationEventCmd
 import kr.apo2073.chzzk.cmds.ReloadCmd
 import kr.apo2073.chzzk.events.ChzzkListeners
 import kr.apo2073.chzzk.events.PlayerEvent
-import kr.apo2073.chzzk.util.*
+import kr.apo2073.chzzk.util.CconfigReload
+import kr.apo2073.chzzk.util.DconfigReload
+import kr.apo2073.chzzk.util.PlaceHolder
+import kr.apo2073.chzzk.util.removeCconfig
+import me.taromati.afreecatv.AfreecatvAPI
 import net.kyori.adventure.text.Component
 import org.bukkit.Bukkit
 import org.bukkit.configuration.file.FileConfiguration
@@ -22,6 +26,7 @@ import java.util.*
 lateinit var chzzk: MutableMap<UUID,Chzzk>
 lateinit var cht: MutableMap<UUID,ChzzkChat>
 lateinit var tn: MutableMap<UUID, Toonation>
+lateinit var af:MutableMap<UUID, AfreecatvAPI>
 class Chk : JavaPlugin() {
     override fun onEnable() {
         if (instance!=null) return
@@ -35,6 +40,7 @@ class Chk : JavaPlugin() {
         chzzk = mutableMapOf()
         cht = mutableMapOf()
         tn= mutableMapOf()
+        af= mutableMapOf()
 
         ChannelCmds(this)
         ReloadCmd(this)
@@ -72,8 +78,6 @@ class Chk : JavaPlugin() {
     companion object {
         var instance: Chk?= null
     }
-    var debug: Boolean = false
-    var random: Boolean = false
 
     override fun onDisable() {
         for (player in Bukkit.getOnlinePlayers()) {

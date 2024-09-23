@@ -27,7 +27,7 @@ dependencies {
 
     implementation(files("libs/chzzk4j-0.0.9.jar"))
     implementation(files("libs/DonationAlertAPI-1.1.0.jar"))
-    //implementation(files("libs/aLib-1.0.2.jar"))
+    implementation(files("libs/AfreecatvLib-master-1.0.3.jar"))
 
     implementation("com.github.apo2073:ApoLib:1.0.2")
 
@@ -79,5 +79,6 @@ tasks.shadowJar {
     mergeServiceFiles()
     dependencies {
         include(dependency(files("libs/chzzk4j-0.0.9.jar")))
+        include(dependency(files("libs/AfreecatvLib-master-1.0.3.jar")))
     }
 }

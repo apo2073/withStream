@@ -25,6 +25,10 @@ class ChannelCmds(val plugin: JavaPlugin) : TabExecutor {
         }
         plugin.getCommand("투네이션")?.setExecutor(this)
         plugin.getCommand("투네이션")?.tabCompleter = this
+        plugin.getCommand("아프리카")?.apply {
+            setExecutor(this@ChannelCmds)
+            tabCompleter=this@ChannelCmds
+        }
     }
 
     private val chk=Chk.instance!!
@@ -47,6 +51,8 @@ class ChannelCmds(val plugin: JavaPlugin) : TabExecutor {
 
         val file=if (label.contains("치지직")) {
             File("${plugin.dataFolder}/chzzk_channel", "${sender.uniqueId}.yml")
+        } else if(label.contains("아프리")) {
+            File("${plugin.dataFolder}/afreeca_channel", "${sender.uniqueId}.yml")
         } else {
             File("${plugin.dataFolder}/tn_channel", "${sender.uniqueId}.yml")
         }
@@ -106,6 +112,7 @@ class ChannelCmds(val plugin: JavaPlugin) : TabExecutor {
 
             if (label.contains("치지직")) chk.ChkBuilder(sender.uniqueId, chID)
             if (label.contains("투네")) TonBuilder(sender.uniqueId, chID)
+            if (label.contains("아프")) AfBuilder(sender.uniqueId, chID)
         } else if (args[0]=="등록해제") {
             val channelN=config.get("channelName")
             val channelId=config.getString("channelID")

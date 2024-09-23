@@ -1,7 +1,6 @@
 package kr.apo2073.chzzk.cmds
 
 import kr.apo2073.chzzk.Chk
-import kr.apo2073.lib.Plugins.msgPerfix
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.event.HoverEvent
 import net.kyori.adventure.text.format.TextDecoration

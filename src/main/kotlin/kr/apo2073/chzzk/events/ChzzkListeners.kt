@@ -8,7 +8,6 @@ import org.bukkit.Bukkit
 import org.bukkit.configuration.file.FileConfiguration
 import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.plugin.java.JavaPlugin
-import org.bukkit.scheduler.BukkitRunnable
 import xyz.r2turntrue.chzzk4j.chat.ChatEventListener
 import xyz.r2turntrue.chzzk4j.chat.ChatMessage
 import xyz.r2turntrue.chzzk4j.chat.ChzzkChat
@@ -21,7 +20,7 @@ class ChzzkListeners(private val plugin: JavaPlugin):ChatEventListener {
     private var chk=Chk.instance!!
 
     override fun onChat(msg: ChatMessage, chat: ChzzkChat) {
-        plugin.server.scheduler.runTask(plugin, Runnable {
+        plugin.server.scheduler.runTask(chk, Runnable {
             if (!plugin.isEnabled) plugin.server.scheduler.cancelTasks(plugin)
             chk.reloadConfig()
             DconfigReload()
@@ -77,7 +76,7 @@ class ChzzkListeners(private val plugin: JavaPlugin):ChatEventListener {
     }
 
     override fun onDonationChat(msg: DonationMessage, chat: ChzzkChat) {
-        plugin.server.scheduler.runTask(plugin, Runnable {
+        plugin.server.scheduler.runTask(chk, Runnable {
             DconfigReload()
             chk.reloadConfig()
             CconfigReload()
@@ -167,6 +166,6 @@ class ChzzkListeners(private val plugin: JavaPlugin):ChatEventListener {
     }
 
     override fun onError(ex: Exception) {
-        this.plugin.logger.warning(ex.toString())
+        this.chk.logger.warning(ex.toString())
     }
 }
