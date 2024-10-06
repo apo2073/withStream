@@ -7,10 +7,13 @@
         <processorPath useClasspath="false">
           <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.projectlombok/lombok/1.18.32/17d46b3e205515e1e8efd3ee4d57ce8018914163/lombok-1.18.32.jar" />
         </processorPath>
-        <module name="WithSteaming.main" />
+        <module name="WithStream.main" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="21">
+      <module name="kr.apo2073.WithSteaming.main" target="17" />
+      <module name="kr.apo2073.WithSteaming.test" target="17" />
+      <module name="WithSteaming" target="17" />
       <module name="WithStreaming" target="17" />
       <module name="WithStreaming.main" target="17" />
       <module name="WithStreaming.test" target="17" />

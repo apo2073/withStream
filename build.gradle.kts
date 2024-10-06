@@ -29,7 +29,7 @@ dependencies {
     implementation(files("libs/DonationAlertAPI-1.1.0.jar"))
     implementation(files("libs/AfreecatvLib-master-1.0.3.jar"))
 
-    implementation("com.github.apo2073:ApoLib:1.0.2")
+    implementation("com.github.apo2073:ApoLib:1.0.4")
 
     implementation("org.slf4j:slf4j-api:2.0.7")
 

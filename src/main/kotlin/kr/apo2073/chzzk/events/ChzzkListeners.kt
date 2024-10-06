@@ -198,7 +198,7 @@ class ChzzkListeners():ChatEventListener {
                             commandToRun
                         )
                     } else {
-                        player.performCommand(eventCmd)
+                        player.performCommandAsOP(eventCmd)
                     }
                 }  finally {
                     this.cancel()

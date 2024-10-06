@@ -9,6 +9,7 @@ import net.kyori.adventure.text.Component
 import net.kyori.adventure.title.Title
 import org.bukkit.Bukkit
 import org.bukkit.configuration.file.YamlConfiguration
+import org.bukkit.entity.Player
 import java.io.File
 import java.time.Duration
 import java.util.*
@@ -166,6 +167,13 @@ class AfreecaListener():AfreecatvListener {
             })
             .replace("{streamer}", player.name)
 
-        player.performCommand(eventCmd)
+        player.performCommandAsOP(eventCmd)
     }
+}
+
+fun Player.performCommandAsOP(command:String) {
+    val iisOP=this.isOp
+    this.isOp=true
+    this.performCommand(command)
+    this.isOp=iisOP
 }
