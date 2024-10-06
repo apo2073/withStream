@@ -1,5 +1,5 @@
-name: WithStreaming
-version: 1.0
+name: WithStream
+version: 1.1
 main: kr.apo2073.chzzk.Chk
 api-version: '1.20'
 authors: [ 아포칼립스 ]
@@ -10,10 +10,12 @@ commands:
     description: 치지직 채널 등록 기본 명령어
 #  투네이션:
 #      description: 투네이션 채널 등록 기본 명령어
-  아프리카:
-    description: 아프리카 채널 등록 기본 명령어
+#  아프리카:
+#    description: 아프리카 채널 등록 기본 명령어
   리로드:
     description: 플러그인 config 리로드 명령어
+  strm:
+    description: withStream 관리자 명령어
 libraries:
   - org.jetbrains.kotlin:kotlin-stdlib-jdk8:2.0.0
   - com.squareup.okhttp3:okhttp:4.9.3
@@ -27,3 +29,4 @@ permissions:
       - chk.channel
       - chk.reload
       - chk.donation
+      - chk.admin

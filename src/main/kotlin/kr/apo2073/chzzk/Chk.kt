@@ -2,6 +2,7 @@ package kr.apo2073.chzzk
 
 import com.outstandingboy.donationalert.platform.Toonation
 import kr.apo2073.chzzk.cmds.ChannelCmds
+import kr.apo2073.chzzk.cmds.AdminCommand
 import kr.apo2073.chzzk.cmds.DonationEventCmd
 import kr.apo2073.chzzk.cmds.ReloadCmd
 import kr.apo2073.chzzk.events.ChzzkListeners
@@ -22,9 +23,8 @@ import xyz.r2turntrue.chzzk4j.chat.ChzzkChat
 import java.io.File
 import java.util.*
 
-
-lateinit var chzzk: MutableMap<UUID,Chzzk>
-lateinit var cht: MutableMap<UUID,ChzzkChat>
+lateinit var chzzk: MutableMap<UUID, Chzzk>
+lateinit var cht: MutableMap<UUID, ChzzkChat>
 lateinit var tn: MutableMap<UUID, Toonation>
 lateinit var af:MutableMap<UUID, AfreecatvAPI>
 class Chk : JavaPlugin() {
@@ -32,7 +32,7 @@ class Chk : JavaPlugin() {
         if (instance!=null) return
         instance=this
 
-        logger.info("WithChzzk Made BY.아포칼립스")
+        logger.info("WithStream Made BY.아포칼립스")
         saveDefaultConfig()
         DconfigReload()
         CconfigReload()
@@ -46,6 +46,7 @@ class Chk : JavaPlugin() {
         ReloadCmd(this)
         PlayerEvent(this)
         DonationEventCmd(this)
+        AdminCommand(this)
 
         if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
             val placeholderExpansion = PlaceHolder(this)
@@ -58,16 +59,17 @@ class Chk : JavaPlugin() {
     fun ChkBuilder(uuid:UUID, id: String) {
         val player=Bukkit.getPlayer(uuid) ?:return
         try {
-            chzzk[uuid]=ChzzkBuilder()
+            chzzk[uuid]= ChzzkBuilder()
                 .build() ?: return
             val chz= chzzk[uuid] ?: return
             var cht= cht[uuid]
             val ch= chz.getChannel(id) ?: return
-            val file= File("${this.dataFolder}/chzzk_channel", "${uuid}.yml")
-            val config: FileConfiguration = YamlConfiguration.loadConfiguration(file)
-            cht = chz.chat(id)?.withChatListener(ChzzkListeners(this))?.build()
+            cht = chz.chat(id)?.withChatListener(ChzzkListeners())?.build()
             cht?.connectBlocking() ?: return
             player.sendMessage(Component.text("§l[§a*§f]§r 채널 ${ch.channelName}( ${ch.followerCount} 팔로워 )에 연결했습니다."))
+
+            val file= File("${this.dataFolder}/chzzk_channel", "${uuid}.yml")
+            val config: FileConfiguration = YamlConfiguration.loadConfiguration(file)
             config.save(file)
 
         } catch (e:Exception) {

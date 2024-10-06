@@ -19,15 +19,12 @@ import java.io.File
 
 class ChannelCmds(val plugin: JavaPlugin) : TabExecutor {
     init {
-        plugin.getCommand("치지직")?.apply {
-            setExecutor(this@ChannelCmds)
-            tabCompleter=this@ChannelCmds
-        }
-        plugin.getCommand("투네이션")?.setExecutor(this)
-        plugin.getCommand("투네이션")?.tabCompleter = this
-        plugin.getCommand("아프리카")?.apply {
-            setExecutor(this@ChannelCmds)
-            tabCompleter=this@ChannelCmds
+        val cmdList= mutableListOf("치지직", "투네이션", "아프리카")
+        for (cmd in cmdList) {
+            plugin.getCommand(cmd)?.apply {
+                setExecutor(this@ChannelCmds)
+                tabCompleter=this@ChannelCmds
+            }
         }
     }
 

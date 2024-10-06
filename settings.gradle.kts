@@ -1,1 +1,1 @@
-rootProject.name = "WithSteaming"
+rootProject.name = "WithStream"

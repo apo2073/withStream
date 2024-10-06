@@ -22,9 +22,9 @@ chat:
   format: "&f {user} : {msg} &7- &l[ {plat} ]"
 # --/후원/--
 donation:
-  format: "&e{chs}치즈&7>&f{user} &d:: &b{msg} &7- &l&6[ 후원 ]"
+  format: "&e{paid}원 &7>&f{user} &d:: &b{msg} &7- &l&6[ 후원 ]"
   view-title: true
-  tformat: "&e{paid}&f치즈 후원!"
+  tformat: "&e{paid}&f원 후원!"
 
 # --/플렛폼 표시 설정/--
 # color가 true일때 {plat}이 치지직이라면 "치지직"이라는 글자가 초록색으로 표기됩니다.
@@ -41,6 +41,7 @@ BoolOrPay: true
 # --/후원 이벤트/--
 # 후원을 받았을때 그 금액에 설정된 명령어를 실행합니다
 # 명령어를 실행하고 싶지 않다면 공백으로 두거나 아예 지워버리면 됩니다.
+# 콘솔에서 실행-> 앞에 $ 붙이기
 # ex) 10000: "kill {player}" -> 1000원을 후원 받으면 kill 명령어가 실행됨
 # {player}::플레이어 닉네임
 # {msg} :: 후원 메세지
