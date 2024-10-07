@@ -1,13 +1,12 @@
 package kr.apo2073.chzzk
 
 import com.outstandingboy.donationalert.platform.Toonation
-import kr.apo2073.chzzk.cmds.*
+import kr.apo2073.chzzk.cmds.AdminCommand
+import kr.apo2073.chzzk.cmds.DonateCMD
+import kr.apo2073.chzzk.cmds.ReloadCmd
 import kr.apo2073.chzzk.events.ChzzkListeners
 import kr.apo2073.chzzk.events.PlayerEvent
-import kr.apo2073.chzzk.util.CconfigReload
-import kr.apo2073.chzzk.util.DconfigReload
-import kr.apo2073.chzzk.util.PlaceHolder
-import kr.apo2073.chzzk.util.removeCconfig
+import kr.apo2073.chzzk.util.*
 import me.taromati.afreecatv.AfreecatvAPI
 import net.kyori.adventure.text.Component
 import org.bukkit.Bukkit
@@ -68,6 +67,8 @@ class Chk : JavaPlugin() {
 
         } catch (e:Exception) {
             player.sendMessage(Component.text("§l[§c*§f]§r ${e.message.toString()}"))
+            Cconfig.set(id, null)
+            connectionSave()
         }
     }
 

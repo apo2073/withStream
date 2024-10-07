@@ -24,5 +24,7 @@ fun AfBuilder(uuid:UUID, bjID:String) {
         config.save(file)
     } catch (e: Exception) {
         player.sendMessage(Component.text("§l[§c*§f]§r ${e.message.toString()}"))
+        Cconfig.set(bjID, null)
+        connectionSave()
     }
 }

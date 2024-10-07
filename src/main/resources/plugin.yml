@@ -22,13 +22,12 @@ libraries:
   - org.jetbrains.kotlin:kotlin-stdlib-jdk8:2.0.0
   - com.squareup.okhttp3:okhttp:4.9.3
   - org.java-websocket:Java-WebSocket:1.5.2
-  -
 permissions:
   chk.*:
     children:
       chk.channel: true
       chk.reload: false
-      chk.donation: false
+      chk.donation: true
       chk.admin: false
 
     chk.channel:
