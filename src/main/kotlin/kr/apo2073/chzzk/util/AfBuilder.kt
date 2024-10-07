@@ -27,4 +27,8 @@ fun AfBuilder(uuid:UUID, bjID:String) {
         Cconfig.set(bjID, null)
         connectionSave()
     }
+
+}
+fun afGetName(bjID: String):String {
+    return AfreecatvAPI.getLiveInfo(bjID).bjName
 }

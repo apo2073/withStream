@@ -28,7 +28,15 @@ class Chk : JavaPlugin() {
         if (instance!=null) return
         instance=this
 
-        logger.info("WithStream Made BY.아포칼립스")
+        logger.info("""
+            
+ __      __.__  __  .__      _________ __                                 
+/  \    /  \__|/  |_|  |__  /   _____//  |________   ____ _____    _____  
+\   \/\/   /  \   __\  |  \ \_____  \\   __\_  __ \_/ __ \\__  \  /     \ 
+ \        /|  ||  | |   Y  \/        \|  |  |  | \/\  ___/ / __ \|  Y Y  \
+  \__/\  / |__||__| |___|  /_______  /|__|  |__|    \___  >____  /__|_|  /
+       \/                \/        \/                   \/     \/      \/   By.아포칼립스
+        """.trimIndent())
         saveDefaultConfig()
         DconfigReload()
         CconfigReload()
@@ -53,13 +61,13 @@ class Chk : JavaPlugin() {
         val player=Bukkit.getPlayer(uuid) ?:return
         try {
             chzzk[uuid]= ChzzkBuilder()
-                .build() ?: return
-            val chz= chzzk[uuid] ?: return
+                .build()
+            val chz= chzzk[uuid]
             var cht= cht[uuid]
-            val ch= chz.getChannel(id) ?: return
-            cht = chz.chat(id)?.withChatListener(ChzzkListeners())?.build()
-            cht?.connectBlocking() ?: return
-            player.sendMessage(Component.text("§l[§a*§f]§r 채널 ${ch.channelName}( ${ch.followerCount} 팔로워 )에 연결했습니다."))
+            val ch= chz?.getChannel(id)
+            cht = chz?.chat(id)?.withChatListener(ChzzkListeners())?.build()
+            cht?.connectBlocking()
+            player.sendMessage(Component.text("§l[§a*§f]§r 채널 ${ch?.channelName}( ${ch?.followerCount} 팔로워 )에 연결했습니다."))
 
             val file= File("${this.dataFolder}/chzzk_channel", "${uuid}.yml")
             val config: FileConfiguration = YamlConfiguration.loadConfiguration(file)

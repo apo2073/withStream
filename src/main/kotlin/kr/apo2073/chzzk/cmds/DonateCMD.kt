@@ -61,29 +61,34 @@ class DonateCMD(plugin: JavaPlugin) : TabExecutor {
 
                 when (action) {
                     "등록" -> {
-                        if (Cconfig.getString(chID) != null) {
-                            sender.sendMessage("§l[§c*§f]§r 이 채널은 이미 다른 플레이어가 등록한 채널입니다.")
-                            return true
+                        try {
+                            if (Cconfig.getString(chID) != null) {
+                                sender.sendMessage("§l[§c*§f]§r 이 채널은 이미 다른 플레이어가 등록한 채널입니다.")
+                                return true
+                            }
+
+                            if ((cht[sender.uniqueId] != null && chzzk[sender.uniqueId] != null) || tn[sender.uniqueId] != null) {
+                                sender.sendMessage("§l[§c*§f]§r 한 채널만 등록할 수 있습니다.")
+                                return true
+                            }
+
+                            config.set("channelID", chID)
+                            /*config.set("channelName", chzzk[sender.uniqueId]?.getChannel(chID)?.channelName
+                                ?: afGetName(chID))*/
+                            config.set("owner", sender.name)
+                            config.set("message", "streamer")
+                            config.set(chID, sender.uniqueId.toString())
+                            config.set(sender.uniqueId.toString(), chID)
+                            config.save(file)
+
+                            Cconfig.set(chID, sender.uniqueId.toString())
+                            connectionSave()
+
+                            if (platform.contains("치지직")) chk.ChkBuilder(sender.uniqueId, chID)
+                            if (platform.contains("아프리카")) AfBuilder(sender.uniqueId, chID)
+                        } catch (e: Exception) {
+                            sender.sendMessage("§l[§c*§f]§r ${e.message}")
                         }
-
-                        if ((cht[sender.uniqueId] != null && chzzk[sender.uniqueId] != null) || tn[sender.uniqueId] != null) {
-                            sender.sendMessage("§l[§c*§f]§r 한 채널만 등록할 수 있습니다.")
-                            return true
-                        }
-
-                        config.set("channelID", chID)
-                        config.set("channelName", chzzk[sender.uniqueId]?.getChannel(chID)?.channelName)
-                        config.set("owner", sender.name)
-                        config.set("message", "streamer")
-                        config.set(chID, sender.uniqueId.toString())
-                        config.set(sender.uniqueId.toString(), chID)
-                        config.save(file)
-
-                        Cconfig.set(chID, sender.uniqueId.toString())
-                        connectionSave()
-
-                        if (platform.contains("치지직")) chk.ChkBuilder(sender.uniqueId, chID)
-                        if (platform.contains("아프리카")) AfBuilder(sender.uniqueId, chID)
                     }
                     "등록해제" -> {
                         val channelName = config.get("channelName") ?: run {

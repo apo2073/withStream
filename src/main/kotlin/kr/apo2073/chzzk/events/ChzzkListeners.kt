@@ -1,6 +1,7 @@
 package kr.apo2073.chzzk.events
 
 import kr.apo2073.chzzk.Chk
+import kr.apo2073.chzzk.chzzk
 import kr.apo2073.chzzk.util.*
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.title.Title
@@ -19,13 +20,10 @@ import java.util.*
 
 class ChzzkListeners():ChatEventListener {
     private var chk=Chk.instance!!
-    private var sch: MutableMap<UUID,Any> = mutableMapOf()
-    private var sche: MutableMap<UUID,Any> = mutableMapOf()
 
     override fun onChat(msg: ChatMessage, chat: ChzzkChat) {
-        val uuid = UUID.fromString(Cconfig.getString(chat.channelId) ?: return) ?: return
-        if (sch[uuid] != null) return
-        sch[uuid] = object : BukkitRunnable() {
+        val uuid = UUID.fromString(Cconfig.getString(chat.channelId)) ?: return
+        object : BukkitRunnable() {
             override fun run() {
                 try {
                     chk.reloadConfig()
@@ -75,7 +73,8 @@ class ChzzkListeners():ChatEventListener {
                         })
                         .replace(Regex("\\{[^}]*\\}"), "§7(이모티콘)§f").trim()
 
-                    val channelName = "§l[ §r${config.getString("channelName")?.replace("&", "§") ?: return} §f§l]§r"
+                    val channelName = "§l[ §r${config.getString("channelName")?.replace("&", "§") 
+                        ?: chzzk[uuid]?.getChannel(chat.channelId)?.channelName ?: "알 수 없음"} §f§l]§r"
 
                     if (message.contains("streamer")) {
                         val player = Bukkit.getPlayer(uuid)
@@ -87,7 +86,6 @@ class ChzzkListeners():ChatEventListener {
                     }
                 } finally {
                     this.cancel()
-                    sch.remove(uuid)
                 }
             }
         }.runTask(chk)
@@ -96,7 +94,7 @@ class ChzzkListeners():ChatEventListener {
 
     override fun onDonationChat(msg: DonationMessage, chat: ChzzkChat) {
         val uuid = UUID.fromString(Cconfig.getString(chat.channelId) ?: return) ?: return
-         sche[uuid]= object : BukkitRunnable() {
+        object : BukkitRunnable() {
             override fun run() {
                 try {
                     DconfigReload()
@@ -202,7 +200,6 @@ class ChzzkListeners():ChatEventListener {
                     }
                 }  finally {
                     this.cancel()
-                    sche.remove(uuid)
                 }
             }
         }
