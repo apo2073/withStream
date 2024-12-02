@@ -1,12 +1,12 @@
-package kr.apo2073.chzzk
+package kr.apo2073.stream
 
 import com.outstandingboy.donationalert.platform.Toonation
-import kr.apo2073.chzzk.cmds.AdminCommand
-import kr.apo2073.chzzk.cmds.DonateCMD
-import kr.apo2073.chzzk.cmds.ReloadCmd
-import kr.apo2073.chzzk.events.ChzzkListeners
-import kr.apo2073.chzzk.events.PlayerEvent
-import kr.apo2073.chzzk.util.*
+import kr.apo2073.lib.Plugins.txt
+import kr.apo2073.stream.cmds.*
+import kr.apo2073.stream.events.ChzzkListener
+import kr.apo2073.stream.util.ChzzkEventCall
+import kr.apo2073.stream.events.PlayerEvent
+import kr.apo2073.stream.util.*
 import me.taromati.afreecatv.AfreecatvAPI
 import net.kyori.adventure.text.Component
 import org.bukkit.Bukkit
@@ -23,7 +23,7 @@ lateinit var chzzk: MutableMap<UUID, Chzzk>
 lateinit var cht: MutableMap<UUID, ChzzkChat>
 lateinit var tn: MutableMap<UUID, Toonation>
 lateinit var af:MutableMap<UUID, AfreecatvAPI>
-class Chk : JavaPlugin() {
+class Stream : JavaPlugin() {
     override fun onEnable() {
         if (instance!=null) return
         instance=this
@@ -46,15 +46,14 @@ class Chk : JavaPlugin() {
         tn= mutableMapOf()
         af= mutableMapOf()
 
-        DonateCMD(this) // 아이곰님 주문용
-        //ChannelCmds(this)
+        //DonateCMD(this) // 아이곰님 주문용
+        ChannelCmds(this)
         ReloadCmd(this)
         PlayerEvent(this)
-        //DonationEventCmd(this)
+        DonationEventCmd(this)
         AdminCommand(this)
-
-
-
+        
+        server.pluginManager.registerEvents(ChzzkListener(), this)
     }
 
     fun ChkBuilder(uuid:UUID, id: String) {
@@ -65,9 +64,9 @@ class Chk : JavaPlugin() {
             val chz= chzzk[uuid]
             var cht= cht[uuid]
             val ch= chz?.getChannel(id)
-            cht = chz?.chat(id)?.withChatListener(ChzzkListeners())?.build()
+            cht = chz?.chat(id)?.withChatListener(ChzzkEventCall())?.build()
             cht?.connectBlocking()
-            player.sendMessage(Component.text("§l[§a*§f]§r 채널 ${ch?.channelName}( ${ch?.followerCount} 팔로워 )에 연결했습니다."))
+            player.sendMessage(txt("§l[§a*§f]§r 채널 ${ch?.channelName}( ${ch?.followerCount} 팔로워 )에 연결했습니다."))
 
             val file= File("${this.dataFolder}/chzzk_channel", "${uuid}.yml")
             val config: FileConfiguration = YamlConfiguration.loadConfiguration(file)
@@ -81,7 +80,7 @@ class Chk : JavaPlugin() {
     }
 
     companion object {
-        var instance: Chk?= null
+        var instance: Stream?= null
     }
 
     override fun onDisable() {

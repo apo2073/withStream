@@ -1,8 +1,8 @@
-package kr.apo2073.chzzk.cmds
+package kr.apo2073.stream.cmds
 
-import kr.apo2073.chzzk.util.CconfigReload
-import kr.apo2073.chzzk.util.DconfigReload
-import kr.apo2073.chzzk.util.chk
+import kr.apo2073.stream.util.CconfigReload
+import kr.apo2073.stream.util.DconfigReload
+import kr.apo2073.stream.util.chk
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.event.HoverEvent
 import net.kyori.adventure.text.format.TextDecoration
@@ -142,7 +142,7 @@ class AdminCommand(private val plugin: JavaPlugin) : TabExecutor {
                     val title = Title.title(
                         Component.text(""),
                         Component.text(donationT),
-                        Title.Times.times(Duration.ofSeconds(0), Duration.ofSeconds(5), Duration.ofSeconds(0))
+                        Title.Times./*times*/of(Duration.ofSeconds(0), Duration.ofSeconds(5), Duration.ofSeconds(0))
                     )
                     if (chk.config.getBoolean("view-title")) trgP.showTitle(title)
                 } else {

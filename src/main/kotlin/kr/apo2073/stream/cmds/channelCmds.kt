@@ -1,10 +1,10 @@
-package kr.apo2073.chzzk.cmds
+package kr.apo2073.stream.cmds
 
-import kr.apo2073.chzzk.Chk
-import kr.apo2073.chzzk.cht
-import kr.apo2073.chzzk.chzzk
-import kr.apo2073.chzzk.tn
-import kr.apo2073.chzzk.util.*
+import kr.apo2073.stream.Stream
+import kr.apo2073.stream.cht
+import kr.apo2073.stream.chzzk
+import kr.apo2073.stream.tn
+import kr.apo2073.stream.util.*
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.event.HoverEvent
 import net.kyori.adventure.text.format.TextDecoration
@@ -28,7 +28,7 @@ class ChannelCmds(val plugin: JavaPlugin) : TabExecutor {
         }
     }
 
-    private val chk=Chk.instance!!
+    private val chk=Stream.instance!!
 
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>?): Boolean {
         if (sender !is Player) {

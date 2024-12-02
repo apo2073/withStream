@@ -1,4 +1,4 @@
-package kr.apo2073.chzzk.util
+package kr.apo2073.stream.util
 
 import com.google.api.services.youtube.YouTube
 import java.util.*

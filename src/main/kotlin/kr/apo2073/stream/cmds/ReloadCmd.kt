@@ -1,6 +1,6 @@
-package kr.apo2073.chzzk.cmds
+package kr.apo2073.stream.cmds
 
-import kr.apo2073.chzzk.Chk
+import kr.apo2073.stream.Stream
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.event.HoverEvent
 import net.kyori.adventure.text.format.TextDecoration
@@ -22,7 +22,7 @@ class ReloadCmd(plugin: JavaPlugin):CommandExecutor {
                             TextDecoration.BOLD))))
             return true
         }
-        Chk.instance!!.reloadConfig()
+        Stream.instance!!.reloadConfig()
         sender.sendMessage(Component.text("§l[§a*§f]§r config 파일을 리로드 했습니다"))
         return true
     }

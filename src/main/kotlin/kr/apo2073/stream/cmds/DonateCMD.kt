@@ -1,8 +1,7 @@
-package kr.apo2073.chzzk.cmds
+package kr.apo2073.stream.cmds
 
-import kr.apo2073.chzzk.*
-import kr.apo2073.chzzk.util.*
-import kr.apo2073.lib.Plugins.msgPerfix
+import kr.apo2073.stream.*
+import kr.apo2073.stream.util.*
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.event.HoverEvent
 import net.kyori.adventure.text.format.TextDecoration
@@ -14,10 +13,9 @@ import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.entity.Player
 import org.bukkit.plugin.java.JavaPlugin
 import java.io.File
-import java.util.UUID
 
 class DonateCMD(plugin: JavaPlugin) : TabExecutor {
-    private val chk = Chk.instance!!
+    private val chk = Stream.instance!!
 
     init {
         plugin.getCommand("후원")?.apply {

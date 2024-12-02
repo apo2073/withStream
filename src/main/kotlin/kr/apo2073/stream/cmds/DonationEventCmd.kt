@@ -1,6 +1,6 @@
-package kr.apo2073.chzzk.cmds
+package kr.apo2073.stream.cmds
 
-import kr.apo2073.chzzk.Chk
+import kr.apo2073.stream.Stream
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.event.HoverEvent
 import net.kyori.adventure.text.format.TextDecoration
@@ -16,7 +16,7 @@ class DonationEventCmd(plugin: JavaPlugin): TabExecutor {
             tabCompleter=this@DonationEventCmd
         }
     }
-    val chk=Chk.instance!!
+    val chk=Stream.instance!!
 
     override fun onCommand(sender: CommandSender, p1: Command, p2: String, p3: Array<out String>?): Boolean {
         if (!sender.hasPermission("chk.donation")) {

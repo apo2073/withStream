@@ -1,8 +1,8 @@
-package kr.apo2073.chzzk.util
+package kr.apo2073.stream.util
 
-import kr.apo2073.chzzk.Chk
-import kr.apo2073.chzzk.af
-import kr.apo2073.chzzk.events.AfreecaListener
+import kr.apo2073.stream.Stream
+import kr.apo2073.stream.af
+import kr.apo2073.stream.events.AfreecaListener
 import me.taromati.afreecatv.AfreecatvAPI
 import net.kyori.adventure.text.Component
 import org.bukkit.Bukkit
@@ -18,7 +18,7 @@ fun AfBuilder(uuid:UUID, bjID:String) {
             .build()
             .addListeners(AfreecaListener())
 
-        val file= File("${Chk.instance!!}/afreeca_channel", "${uuid}.yml")
+        val file= File("${Stream.instance!!}/afreeca_channel", "${uuid}.yml")
         val config=YamlConfiguration.loadConfiguration(file)
         player.sendMessage(Component.text("§l[§a*§f]§r 채널 ${afAPI.bjName}에 연결했습니다."))
         config.save(file)

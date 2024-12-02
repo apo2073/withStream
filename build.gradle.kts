@@ -1,5 +1,5 @@
 plugins {
-    kotlin("jvm") version "2.0.0"
+    kotlin("jvm") version "2.0.21"
     id("com.github.johnrengelman.shadow") version "8.1.1"
 }
 
@@ -22,10 +22,11 @@ repositories {
 
 
 dependencies {
-    compileOnly("io.papermc.paper:paper-api:1.20-R0.1-SNAPSHOT")
+        compileOnly("io.papermc.paper:paper-api:1.20-R0.1-SNAPSHOT")
+    //compileOnly("com.destroystokyo.paper:paper-api:1.16.5-R0.1-SNAPSHOT")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 
-    implementation(files("libs/chzzk4j-0.0.9.jar"))
+    implementation(files("libs/chzzk4j.jar"))
     implementation(files("libs/DonationAlertAPI-1.1.0.jar"))
     implementation(files("libs/AfreecatvLib-master-1.0.3.jar"))
 
@@ -69,16 +70,17 @@ tasks.processResources {
     val props = mapOf("version" to version)
     inputs.properties(props)
     filteringCharset = "UTF-8"
-    filesMatching("plugin.yml") {
+    filesMatching("**/*.yml") {
         expand(props)
     }
 }
 
 tasks.shadowJar {
+    archiveFileName.set("withStream-${version}.jar")
     archiveClassifier.set("all")
     mergeServiceFiles()
     dependencies {
-        include(dependency(files("libs/chzzk4j-0.0.9.jar")))
+        include(dependency(files("libs/chzzk4j.jar")))
         include(dependency(files("libs/AfreecatvLib-master-1.0.3.jar")))
     }
 }

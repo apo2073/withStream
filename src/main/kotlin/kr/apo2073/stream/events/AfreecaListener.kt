@@ -1,7 +1,7 @@
-package kr.apo2073.chzzk.events
+package kr.apo2073.stream.events
 
-import kr.apo2073.chzzk.Chk
-import kr.apo2073.chzzk.util.*
+import kr.apo2073.stream.Stream
+import kr.apo2073.stream.util.*
 import me.taromati.afreecatv.event.implement.DonationChatEvent
 import me.taromati.afreecatv.event.implement.MessageChatEvent
 import me.taromati.afreecatv.listener.AfreecatvListener
@@ -15,7 +15,7 @@ import java.time.Duration
 import java.util.*
 
 class AfreecaListener():AfreecatvListener {
-    val chk=Chk.instance!!
+    val chk=Stream.instance!!
     val BoP=chk.config.getBoolean("BoolOrPay")
     override fun onMessageChat(e: MessageChatEvent) {
         chk.reloadConfig()
@@ -23,7 +23,7 @@ class AfreecaListener():AfreecatvListener {
         CconfigReload()
         if (!chk.config.getBoolean("채팅")) return
         val uuid = UUID.fromString(Cconfig.getString(e.channelId) ?: return) ?: return
-        val file= File("${Chk.instance!!}/afreeca_channel", "${uuid}.yml")
+        val file= File("${Stream.instance!!}/afreeca_channel", "${uuid}.yml")
         if (!file.exists()) return
         val config = YamlConfiguration.loadConfiguration(file)
         val sponsorL= Dconfig.getStringList("sponsor")
@@ -76,7 +76,7 @@ class AfreecaListener():AfreecatvListener {
         CconfigReload()
         if (!chk.config.getBoolean("후원")) return
         val uuid=UUID.fromString(Cconfig.getString(e.channelId) ?: return) ?: return
-        val file= File("${Chk.instance!!}/afreeca_channel", "${uuid}.yml")
+        val file= File("${Stream.instance!!}/afreeca_channel", "${uuid}.yml")
         if (!file.exists()) return
         val config = YamlConfiguration.loadConfiguration(file)
         val message=config.getString("message").toString()
@@ -136,7 +136,10 @@ class AfreecaListener():AfreecatvListener {
                 })
                 ?: return
             val title= Title.title(Component.text(""), Component.text(donationT)
-                , Title.Times.times(Duration.ofSeconds(0), Duration.ofSeconds(5), Duration.ofSeconds(0)))
+                , Title.Times./*of*/times(
+                    Duration.ofSeconds(0), Duration.ofSeconds(5),
+                    Duration.ofSeconds(0)
+                ))
             if (chk.config.getBoolean("view-title")) player.showTitle(title)
         } else {
             for (pl in Bukkit.getOnlinePlayers()) {
