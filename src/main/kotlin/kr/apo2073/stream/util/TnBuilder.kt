@@ -3,13 +3,12 @@ package kr.apo2073.stream.util
 import com.outstandingboy.donationalert.platform.Toonation
 import kr.apo2073.stream.Stream
 import kr.apo2073.stream.tn
+import kr.apo2073.stream.util.titleManager.showTitle
 import net.kyori.adventure.text.Component
-import net.kyori.adventure.title.Title
 import org.bukkit.Bukkit
 import org.bukkit.configuration.file.FileConfiguration
 import org.bukkit.configuration.file.YamlConfiguration
 import java.io.File
-import java.time.Duration
 import java.util.*
 
 val chk=Stream.instance!!
@@ -115,9 +114,7 @@ fun TonBuilder(uuid: UUID, key: String) {
                     }
                 })
                 ?: return@subscribeDonation
-            val title= Title.title(Component.text(""), Component.text(donationT)
-                , Title.Times./*times*/of(Duration.ofSeconds(0), Duration.ofSeconds(5), Duration.ofSeconds(0)))
-            if (chk.config.getBoolean("view-title")) player.showTitle(title)
+            showTitle("", donationT, player)
         } else {
             Bukkit.broadcast(Component.text("${channelName}${donationF}"))
         }

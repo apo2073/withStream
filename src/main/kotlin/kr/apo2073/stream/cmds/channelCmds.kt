@@ -35,7 +35,7 @@ class ChannelCmds(val plugin: JavaPlugin) : TabExecutor {
             sender.sendMessage("§l[§c*§f]§r 플레이어 전용 명령어 입니다.")
             return true
         }
-        if (!sender.hasPermission("chk.channel")) {
+        if (!sender.hasPermission("stream.channel")) {
             sender.sendMessage(
                 Component.text("§l[§c*§f]§r 해당 명령어를 실행할 권한이 없습니다")
                     .hoverEvent(HoverEvent.showText(Component.text("[ 권한 :: §cchk.channel §f]").decorate(TextDecoration.BOLD))))

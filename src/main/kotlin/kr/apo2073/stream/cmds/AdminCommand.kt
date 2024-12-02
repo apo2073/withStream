@@ -3,10 +3,10 @@ package kr.apo2073.stream.cmds
 import kr.apo2073.stream.util.CconfigReload
 import kr.apo2073.stream.util.DconfigReload
 import kr.apo2073.stream.util.chk
+import kr.apo2073.stream.util.titleManager.showTitle
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.event.HoverEvent
 import net.kyori.adventure.text.format.TextDecoration
-import net.kyori.adventure.title.Title
 import org.bukkit.Bukkit
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
@@ -14,7 +14,6 @@ import org.bukkit.command.TabExecutor
 import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.plugin.java.JavaPlugin
 import java.io.File
-import java.time.Duration
 
 class AdminCommand(private val plugin: JavaPlugin) : TabExecutor {
 
@@ -139,12 +138,7 @@ class AdminCommand(private val plugin: JavaPlugin) : TabExecutor {
                         ?.replace("{msg}", "관리자에 의해 실행됨")
                         ?.replace("{user}", "§cADMIN§f")
                         ?.replace("{paid}", args[2]) ?: ""
-                    val title = Title.title(
-                        Component.text(""),
-                        Component.text(donationT),
-                        Title.Times./*times*/of(Duration.ofSeconds(0), Duration.ofSeconds(5), Duration.ofSeconds(0))
-                    )
-                    if (chk.config.getBoolean("view-title")) trgP.showTitle(title)
+                    showTitle("", donationT, trgP)
                 } else {
                     for (pl in Bukkit.getOnlinePlayers()) {
                         pl.sendMessage(Component.text("${channelName}${donationF}"))

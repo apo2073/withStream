@@ -1,10 +1,8 @@
-name: WithStream
-version: 1.1
+name: withStream
+version: ${version}
 main: kr.apo2073.stream.Stream
-api-version: '1.20'
-#api-version: '1.16'
+api-version: '1.13'
 authors: [ 아포칼립스 ]
-depend: [ ApoLib ]
 commands:
   후원:
     description: 후원 이벤트 명령어 설정 기본 명령어
@@ -24,10 +22,11 @@ libraries:
   - org.jetbrains.kotlin:kotlin-stdlib-jdk8:2.0.0
   - com.squareup.okhttp3:okhttp:4.9.3
   - org.java-websocket:Java-WebSocket:1.5.2
+
 permissions:
-  chk.*:
+  stream.*:
     children:
-      chk.channel: true
+      stream.channel: true
       chk.reload: false
       chk.donation: true
       chk.admin: false

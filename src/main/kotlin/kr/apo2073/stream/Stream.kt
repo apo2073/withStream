@@ -1,10 +1,11 @@
 package kr.apo2073.stream
 
 import com.outstandingboy.donationalert.platform.Toonation
-import kr.apo2073.lib.Plugins.txt
-import kr.apo2073.stream.cmds.*
+import kr.apo2073.stream.cmds.AdminCommand
+import kr.apo2073.stream.cmds.ChannelCmds
+import kr.apo2073.stream.cmds.DonationEventCmd
+import kr.apo2073.stream.cmds.ReloadCmd
 import kr.apo2073.stream.events.ChzzkListener
-import kr.apo2073.stream.util.ChzzkEventCall
 import kr.apo2073.stream.events.PlayerEvent
 import kr.apo2073.stream.util.*
 import me.taromati.afreecatv.AfreecatvAPI
@@ -35,7 +36,7 @@ class Stream : JavaPlugin() {
 \   \/\/   /  \   __\  |  \ \_____  \\   __\_  __ \_/ __ \\__  \  /     \ 
  \        /|  ||  | |   Y  \/        \|  |  |  | \/\  ___/ / __ \|  Y Y  \
   \__/\  / |__||__| |___|  /_______  /|__|  |__|    \___  >____  /__|_|  /
-       \/                \/        \/                   \/     \/      \/   By.아포칼립스
+       \/                \/        \/                   \/     \/      \/   By.apo2073
         """.trimIndent())
         saveDefaultConfig()
         DconfigReload()
@@ -63,10 +64,10 @@ class Stream : JavaPlugin() {
                 .build()
             val chz= chzzk[uuid]
             var cht= cht[uuid]
-            val ch= chz?.getChannel(id)
+            val ch= chz?.getChannel(id) // 문제
             cht = chz?.chat(id)?.withChatListener(ChzzkEventCall())?.build()
             cht?.connectBlocking()
-            player.sendMessage(txt("§l[§a*§f]§r 채널 ${ch?.channelName}( ${ch?.followerCount} 팔로워 )에 연결했습니다."))
+            player.sendMessage(Component.text("§l[§a*§f]§r 채널 ${ch?.channelName}( ${ch?.followerCount} 팔로워 )에 연결했습니다."))
 
             val file= File("${this.dataFolder}/chzzk_channel", "${uuid}.yml")
             val config: FileConfiguration = YamlConfiguration.loadConfiguration(file)

@@ -8,15 +8,14 @@ import kr.apo2073.stream.util.DconfigReload
 import kr.apo2073.stream.util.DconfigSave
 import kr.apo2073.stream.util.events.ChzzkChatEvent
 import kr.apo2073.stream.util.events.ChzzkDonationEvent
+import kr.apo2073.stream.util.titleManager.showTitle
 import net.kyori.adventure.text.Component
-import net.kyori.adventure.title.Title
 import org.bukkit.Bukkit
 import org.bukkit.configuration.file.FileConfiguration
 import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import java.io.File
-import java.time.Duration
 
 class ChzzkListener:Listener {
     private var strm= Stream.instance!!
@@ -156,12 +155,7 @@ class ChzzkListener:Listener {
                         }
                     )
                     ?: return
-                val title = Title.title(
-                    Component.text(""),
-                    Component.text(donationT),
-                    Title.Times.times/*of*/(Duration.ofSeconds(0), Duration.ofSeconds(5), Duration.ofSeconds(0))
-                )
-                if (strm.config.getBoolean("view-title")) player.showTitle(title)
+                showTitle("", donationT, player)
             } else {
                 for (pl in Bukkit.getOnlinePlayers()) {
                     pl.sendMessage(Component.text("${channelName}${donationF}"))

@@ -2,16 +2,15 @@ package kr.apo2073.stream.events
 
 import kr.apo2073.stream.Stream
 import kr.apo2073.stream.util.*
+import kr.apo2073.stream.util.titleManager.showTitle
 import me.taromati.afreecatv.event.implement.DonationChatEvent
 import me.taromati.afreecatv.event.implement.MessageChatEvent
 import me.taromati.afreecatv.listener.AfreecatvListener
 import net.kyori.adventure.text.Component
-import net.kyori.adventure.title.Title
 import org.bukkit.Bukkit
 import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.entity.Player
 import java.io.File
-import java.time.Duration
 import java.util.*
 
 class AfreecaListener():AfreecatvListener {
@@ -135,12 +134,7 @@ class AfreecaListener():AfreecatvListener {
                     }
                 })
                 ?: return
-            val title= Title.title(Component.text(""), Component.text(donationT)
-                , Title.Times./*of*/times(
-                    Duration.ofSeconds(0), Duration.ofSeconds(5),
-                    Duration.ofSeconds(0)
-                ))
-            if (chk.config.getBoolean("view-title")) player.showTitle(title)
+            showTitle("", donationT, player)
         } else {
             for (pl in Bukkit.getOnlinePlayers()) {
                 pl.sendMessage(Component.text("${channelName}${donationF}"))
