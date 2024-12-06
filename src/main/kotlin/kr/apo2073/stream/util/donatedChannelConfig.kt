@@ -37,3 +37,5 @@ fun removeCconfig() {
         filess.delete()
     }
 }
+
+//TODO: 콘피그 정리하기

@@ -4,7 +4,8 @@ plugins {
 }
 
 group = "kr.apo2073"
-version = "1.2"
+version = "v1.2"
+val relocate = (findProperty("relocate") as? String)?.toBoolean() ?: true
 
 repositories {
     mavenCentral()
@@ -23,12 +24,14 @@ repositories {
 
 dependencies {
     compileOnly("io.papermc.paper:paper-api:1.20-R0.1-SNAPSHOT")
-    //compileOnly("com.destroystokyo.paper:paper-api:1.16.5-R0.1-SNAPSHOT")
+    implementation("net.kyori:adventure-api:4.17.0")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 
     implementation(files("libs/chzzk4j.jar"))
     implementation(files("libs/DonationAlertAPI-1.1.0.jar"))
     implementation(files("libs/AfreecatvLib-master-1.0.3.jar"))
+
+//    implementation(gradleApi())
 
     //implementation("com.github.apo2073:ApoLib:1.0.4")
 
@@ -42,7 +45,7 @@ dependencies {
     implementation("io.socket:socket.io-client:2.0.1")
     implementation("io.reactivex.rxjava2:rxjava:2.1.16")
     implementation("org.jsoup:jsoup:1.15.3")
-    implementation("org.java-websocket:Java-WebSocket:1.5.2")
+    implementation("org.java-websocket:Java-WebSocket:1.5.5")
 
     implementation("com.google.code.gson:gson:2.11.0")
     implementation("com.googlecode.json-simple:json-simple:1.1.1")
@@ -54,6 +57,7 @@ dependencies {
     implementation("com.squareup.okhttp3:okhttp:4.9.3")
     implementation("com.squareup.retrofit2:retrofit:2.11.0")
     implementation("com.squareup.retrofit2:converter-gson:2.11.0")
+    implementation("org.seleniumhq.selenium:selenium-java:4.26.0")
 
 }
 
@@ -77,13 +81,15 @@ tasks.processResources {
 
 tasks.shadowJar {
     minimize()
-    archiveFileName.set("withStream-v${version}.jar")
+    archiveFileName.set("withStream-${version}.jar")
     archiveClassifier.set("all")
-    destinationDirectory=file("C:\\Users\\이태수\\Desktop\\arclight\\plugins")
+//    destinationDirectory = file("C:\\Users\\PC\\Desktop\\Test_Server\\arclight\\plugins")
     mergeServiceFiles()
     dependencies {
-        include(dependency(files("libs/chzzk4j.jar")))
         include(dependency(files("libs/AfreecatvLib-master-1.0.3.jar")))
         include(dependency(files("libs/DonationAlertAPI-1.1.0.jar")))
+        include(dependency(files("libs/chzzk4j")))
+        include(dependency("com.google.code.gson:gson:2.11.0"))
     }
+    relocate("com.google.gson", "kr.apo2073.gson")
 }

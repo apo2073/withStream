@@ -2,7 +2,9 @@ package kr.apo2073.stream.events
 
 import kr.apo2073.stream.Stream
 import kr.apo2073.stream.util.*
-import kr.apo2073.stream.util.titleManager.showTitle
+import kr.apo2073.stream.util.Managers.prefix
+import kr.apo2073.stream.util.Managers.sendMessage
+import kr.apo2073.stream.util.Managers.showTitle
 import me.taromati.afreecatv.event.implement.DonationChatEvent
 import me.taromati.afreecatv.event.implement.MessageChatEvent
 import me.taromati.afreecatv.listener.AfreecatvListener
@@ -13,29 +15,34 @@ import org.bukkit.entity.Player
 import java.io.File
 import java.util.*
 
-class AfreecaListener():AfreecatvListener {
-    val chk=Stream.instance!!
-    val BoP=chk.config.getBoolean("BoolOrPay")
+class AfreecaListener : AfreecatvListener {
+
+    val chk = Stream.instance!!
+    val BoP = chk.config.getBoolean("BoolOrPay")
+
     override fun onMessageChat(e: MessageChatEvent) {
         chk.reloadConfig()
         DconfigReload()
         CconfigReload()
         if (!chk.config.getBoolean("채팅")) return
+
         val uuid = UUID.fromString(Cconfig.getString(e.channelId) ?: return) ?: return
-        val file= File("${Stream.instance!!}/afreeca_channel", "${uuid}.yml")
+        val file = File("${Stream.instance!!}/afreeca_channel", "$uuid.yml")
         if (!file.exists()) return
+
         val config = YamlConfiguration.loadConfiguration(file)
-        val sponsorL= Dconfig.getStringList("sponsor")
-        val message=config.getString("message") ?: "streamer"
+        val sponsorL = Dconfig.getStringList("sponsor")
+        val message = config.getString("message") ?: "streamer"
         chk.reloadConfig()
 
-        var chatFormat=
-            if (config.getString("Chat-format")==""
-                || config.getString("Chat-format").isNullOrEmpty()) chk.config.getString("chat.format")  ?: "{user} : {msg}"
-            else config.getString("Chat-format") ?: "{user} : {msg}"
+        var chatFormat = if (config.getString("Chat-format").isNullOrEmpty()) {
+            chk.config.getString("chat.format") ?: "{user} : {msg}"
+        } else {
+            config.getString("Chat-format") ?: "{user} : {msg}"
+        }
 
-        chatFormat=chatFormat
-            .replace("&","§")
+        chatFormat = chatFormat
+            .replace("&", "§")
             .replace("{msg}", e.message)
             .replace("{user}", if (e.nickname in sponsorL) {
                 "§e${e.nickname}§f"
@@ -56,16 +63,14 @@ class AfreecaListener():AfreecatvListener {
                 }
             })
             .replace(Regex("\\{[^}]*\\}"), "§7(이모티콘)§f").trim()
-        val channelName="§l[ §r${config.getString("channelName")
-            ?.replace("&","§") ?: return
-        } §f§l]§r"
+
+        val channelName = "§l[ §r${config.getString("channelName")?.replace("&", "§") ?: return} §f§l]§r"
+
         if (message.contains("streamer")) {
-            val player= Bukkit.getPlayer(uuid)
-            player?.sendMessage(Component.text("${channelName}${chatFormat}"))
+            val player = Bukkit.getPlayer(uuid) ?: return
+            player.let { sendMessage(Component.text("$channelName$chatFormat"), it) }
         } else {
-            for (pl in Bukkit.getOnlinePlayers()) {
-                pl.sendMessage(Component.text("${channelName}${chatFormat}"))
-            }
+            Bukkit.getOnlinePlayers().forEach { sendMessage(Component.text("$channelName$chatFormat"), it) }
         }
     }
 
@@ -74,17 +79,19 @@ class AfreecaListener():AfreecatvListener {
         chk.reloadConfig()
         CconfigReload()
         if (!chk.config.getBoolean("후원")) return
-        val uuid=UUID.fromString(Cconfig.getString(e.channelId) ?: return) ?: return
-        val file= File("${Stream.instance!!}/afreeca_channel", "${uuid}.yml")
+
+        val uuid = UUID.fromString(Cconfig.getString(e.channelId) ?: return) ?: return
+        val file = File("${Stream.instance!!}/afreeca_channel", "$uuid.yml")
         if (!file.exists()) return
+
         val config = YamlConfiguration.loadConfiguration(file)
-        val message=config.getString("message").toString()
-        val channelName="§l[ §r${config.getString("channelName")
-            ?.replace("&","§") ?: "알 수 없는 채널"} §f§l]§r"
+        val message = config.getString("message").toString()
+        val channelName = "§l[ §r${config.getString("channelName")?.replace("&", "§") ?: "알 수 없는 채널"} §f§l]§r"
 
         chk.reloadConfig()
-        val donationF=chk.config.getString("donation.format")
-            ?.replace("&","§")
+
+        val donationF = chk.config.getString("donation.format")
+            ?.replace("&", "§")
             ?.replace("{msg}", e.message)
             ?.replace("{user}", e.nickname ?: "[ 익명 ]")
             ?.replace("{paid}", if (BoP) {
@@ -108,11 +115,11 @@ class AfreecaListener():AfreecatvListener {
             })
 
         if (message.contains("streamer")) {
-            val player=Bukkit.getPlayer(uuid) ?: return
-            player.sendMessage(Component.text("${channelName}$donationF"))
+            val player = Bukkit.getPlayer(uuid) ?: return
+            sendMessage(prefix.append(Component.text("$channelName$donationF")), player)
 
-            val donationT=chk.config.getString("donation.tformat")
-                ?.replace("&","§")
+            val donationT = chk.config.getString("donation.tformat")
+                ?.replace("&", "§")
                 ?.replace("{msg}", e.message)
                 ?.replace("{user}", e.nickname ?: "[ 익명 ]")
                 ?.replace("{paid}", if (BoP) {
@@ -136,25 +143,23 @@ class AfreecaListener():AfreecatvListener {
                 ?: return
             showTitle("", donationT, player)
         } else {
-            for (pl in Bukkit.getOnlinePlayers()) {
-                pl.sendMessage(Component.text("${channelName}${donationF}"))
-            }
+            Bukkit.getOnlinePlayers().forEach { sendMessage(Component.text("$channelName$donationF"), it) }
         }
 
-        val sponsorL= config.getStringList("sponsor").toMutableList()
+        val sponsorL = config.getStringList("sponsor").toMutableList()
         sponsorL.add(e.nickname ?: "익명 ${Math.random()}")
         config.set("sponsor", sponsorL)
         config.save(file)
 
-        val dcl= Dconfig.getStringList("donated-channel")
+        val dcl = Dconfig.getStringList("donated-channel")
         if (e.channelId !in dcl) {
             dcl.add(e.nickname)
         }
         Dconfig.set("donated-channel", dcl)
         DconfigSave()
 
-        val player=Bukkit.getPlayer(uuid) ?: return
-        val eventCmd=chk.config.getString("donation-event.${e.balloonAmount}") ?: return
+        val player = Bukkit.getPlayer(uuid) ?: return
+        val eventCmd = chk.config.getString("donation-event.${e.balloonAmount}") ?: return
         eventCmd.replace("{player}", player.name)
             .replace("{msg}", e.message)
             .replace("{paid}", if (BoP) {
@@ -167,6 +172,7 @@ class AfreecaListener():AfreecatvListener {
         player.performCommandAsOP(eventCmd)
     }
 }
+
 
 fun Player.performCommandAsOP(command:String) {
     val iisOP=this.isOp

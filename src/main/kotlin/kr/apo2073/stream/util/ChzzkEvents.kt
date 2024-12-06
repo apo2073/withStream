@@ -11,29 +11,35 @@ import xyz.r2turntrue.chzzk4j.chat.ChzzkChat
 import xyz.r2turntrue.chzzk4j.chat.DonationMessage
 import java.util.*
 
-class ChzzkEventCall:ChatEventListener {
+class ChzzkEvents: ChatEventListener {
     private var strm=Stream.instance!!
 
     override fun onChat(msg: ChatMessage, chat: ChzzkChat) {
-        val uuid = UUID.fromString(Cconfig.getString(chat.channelId)) ?: return
+        val uuid = UUID.fromString(Cconfig.getString(chat.channelId) ?: return)
         object : BukkitRunnable() {
             override fun run() {
-                Bukkit.getPluginManager().callEvent(ChzzkChatEvent(msg, chat, Bukkit.getPlayer(uuid)))
+                Bukkit.getPluginManager().callEvent(ChzzkChatEvent(msg, chat, Bukkit.getPlayer(uuid) ?: run {
+                    this.cancel()
+                    return
+                }))
             }
         }.runTask(strm)
 
     }
 
     override fun onDonationChat(msg: DonationMessage, chat: ChzzkChat) {
-        val uuid = UUID.fromString(Cconfig.getString(chat.channelId) ?: return) ?: return
+        val uuid = UUID.fromString(Cconfig.getString(chat.channelId) ?: return)
         object : BukkitRunnable() {
             override fun run() {
-                Bukkit.getPluginManager().callEvent(ChzzkDonationEvent(msg, chat, Bukkit.getPlayer(uuid)))
+                Bukkit.getPluginManager().callEvent(ChzzkDonationEvent(msg, chat, Bukkit.getPlayer(uuid) ?: run {
+                    this.cancel()
+                    return
+                }))
             }
         }
     }
 
     override fun onError(ex: Exception) {
-        this.strm.logger.warning(ex.toString())
+        ex.printStackTrace()
     }
 }

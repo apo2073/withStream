@@ -2,13 +2,11 @@ package kr.apo2073.stream.events
 
 import kr.apo2073.stream.Stream
 import kr.apo2073.stream.chzzk
-import kr.apo2073.stream.util.CconfigReload
 import kr.apo2073.stream.util.Dconfig
-import kr.apo2073.stream.util.DconfigReload
-import kr.apo2073.stream.util.DconfigSave
+import kr.apo2073.stream.util.Managers.sendMessage
+import kr.apo2073.stream.util.Managers.showTitle
 import kr.apo2073.stream.util.events.ChzzkChatEvent
 import kr.apo2073.stream.util.events.ChzzkDonationEvent
-import kr.apo2073.stream.util.titleManager.showTitle
 import net.kyori.adventure.text.Component
 import org.bukkit.Bukkit
 import org.bukkit.configuration.file.FileConfiguration
@@ -16,181 +14,124 @@ import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import java.io.File
+import java.util.*
 
-class ChzzkListener:Listener {
-    private var strm= Stream.instance!!
-    
+class ChzzkListener : Listener {
+    private val stream = Stream.instance!!
+    private val enableColor = stream.config.getBoolean("color")
+    private val isChattingEnabled = stream.config.getBoolean("채팅")
+    private val isDonationEnabled = stream.config.getBoolean("후원")
+
+    private fun loadConfigFile(uuid: String): FileConfiguration? {
+        val file = File("${stream.dataFolder}/chzzk_channel", "$uuid.yml")
+        if (!file.exists()) return null
+        return YamlConfiguration.loadConfiguration(file)
+    }
+
+    private fun getChannelName(config: FileConfiguration?, uuid: UUID, chatChannelId: String?): String {
+        return config?.getString("channelName")?.replace("&", "§")
+            ?: (chzzk[uuid]?.getChannel(chatChannelId)?.channelName ?: "알 수 없음")
+    }
+
+    private fun getPlatformName(): String {
+        val platform = if (stream.config.getBoolean("en")) "Chzzk" else "치지직"
+        return if (enableColor) "§a$platform§f" else platform
+    }
+
     @EventHandler
-    fun onChat(e: ChzzkChatEvent) {
-        val msg=e.message
-        val chat=e.chat
-        val uuid=e.player?.uniqueId ?: return
+    fun onChat(event: ChzzkChatEvent) {
+        val player = event.player ?: return
+        val uuid = player.uniqueId
+        if (!isChattingEnabled) return
 
         try {
-            strm.reloadConfig()
-            DconfigReload()
-            CconfigReload()
-            if (!strm.config.getBoolean("채팅")) {
-                return
-            }
+            val config = loadConfigFile(uuid.toString()) ?: return
+            val channelName = "§l[ §r${getChannelName(config, uuid, event.chat.channelId)} §f§l]§r"
 
-            val file = File("${strm.dataFolder}/chzzk_channel", "${uuid}.yml")
-            if (!file.exists()) {
-                return
-            }
+            var chatFormat = config.getString("Chat-format")
+                ?: stream.config.getString("chat.format") ?: "{user} : {msg}"
 
-            val config: FileConfiguration = YamlConfiguration.loadConfiguration(file)
-            val sponsorL = Dconfig.getStringList("sponsor")
-            val message = config.getString("message") ?: "streamer"
-
-            var chatFormat = if (config.getString("Chat-format").isNullOrEmpty()) {
-                strm.config.getString("chat.format") ?: "{user} : {msg}"
-            } else {
-                config.getString("Chat-format") ?: "{user} : {msg}"
-            }
-
-            chatFormat = chatFormat
-                .replace("&", "§")
-                .replace("{msg}", msg.content)
-                .replace("{user}", if (msg.profile?.nickname in sponsorL) {
-                    "§e${msg.profile!!.nickname}§f"
-                } else {
-                    msg.profile?.nickname ?: "[ 익명 ]"
-                })
-                .replace("{plat}", if (strm.config.getBoolean("color")) {
-                    if (strm.config.getBoolean("en")) {
-                        "§aChzzk§f"
+            val sponsorList = Dconfig.getStringList("sponsor")
+            chatFormat = chatFormat.replace("&", "§")
+                .replace("{msg}", event.message.content)
+                .replace(
+                    "{user}",
+                    if (event.message.profile?.nickname in sponsorList) {
+                        "§e${event.message.profile?.nickname}§f"
                     } else {
-                        "§a치지직§f"
+                        event.message.profile?.nickname ?: "[ 익명 ]"
                     }
-                } else {
-                    if (strm.config.getBoolean("en")) {
-                        "Chzzk"
-                    } else {
-                        "치지직"
-                    }
-                })
-                .replace(Regex("\\{[^}]*\\}"), "§7(이모티콘)§f").trim()
+                )
+                .replace("{plat}", getPlatformName())
+                .replace(Regex("\\{[^}]*}"), "§7(이모티콘)§f").trim()
 
-            val channelName = "§l[ §r${config.getString("channelName")?.replace("&", "§")
-                ?: chzzk[uuid]?.getChannel(chat.channelId)?.channelName ?: "알 수 없음"} §f§l]§r"
-
-            if (message.contains("streamer")) {
-                val player = Bukkit.getPlayer(uuid)
-                player?.sendMessage(Component.text("${channelName}${chatFormat}"))
+            val messageTarget = config.getString("message") ?: "streamer"
+            if (messageTarget.contains("streamer")) {
+                sendMessage(Component.text("$channelName$chatFormat"), player)
             } else {
-                for (pl in Bukkit.getOnlinePlayers()) {
-                    pl.sendMessage(Component.text("${channelName}${chatFormat}"))
-                }
+                Bukkit.getOnlinePlayers().forEach { sendMessage(Component.text("$channelName$chatFormat"), it) }
             }
-        } catch (e:Exception) {
+        } catch (e: Exception) {
+            stream.logger.warning("${e.message}")
             e.printStackTrace()
         }
     }
+
     @EventHandler
-    fun onDonation(e:ChzzkDonationEvent) {
-        val msg=e.message
-        val chat=e.chat
-        val uuid=e.player?.uniqueId ?: return
+    fun onDonation(event: ChzzkDonationEvent) {
+        val player = event.player ?: return
+        val uuid = player.uniqueId
+        if (!isDonationEnabled) return
 
         try {
-            DconfigReload()
-            strm.reloadConfig()
-            CconfigReload()
-            if (!strm.config.getBoolean("후원")) return
-            val file = File("${strm.dataFolder}/chzzk_channel", "${uuid}.yml")
-            if (!file.exists()) return
-            val config: FileConfiguration = YamlConfiguration.loadConfiguration(file)
-            val message = config.getString("message").toString()
-            val channelName = "§l[ §r${
-                config.getString("channelName")
-                    ?.replace("&", "§") ?: "알 수 없는 채널"
-            } §f§l]§r"
+            val config = loadConfigFile(uuid.toString()) ?: return
+            val channelName = "§l[ §r${getChannelName(config, uuid, event.chat.channelId)} §f§l]§r"
 
-            strm.reloadConfig()
-            val donationF = strm.config.getString("donation.format")
+            val donationFormat = stream.config.getString("donation.format")
                 ?.replace("&", "§")
-                ?.replace("{msg}", msg.content)
-                ?.replace("{user}", msg.profile?.nickname ?: "[ 익명 ]")
-                ?.replace("{paid}", msg.payAmount.toString())
-                ?.replace(Regex("\\{[^}]*\\}"), "(이모티콘)")?.trim()
-                ?.replace(
-                    "{plat}", if (strm.config.getBoolean("color")) {
-                        if (kr.apo2073.stream.util.chk.config.getBoolean("en")) {
-                            "§aChzzk§f"
-                        } else {
-                            "§a치지직§f"
-                        }
-                    } else {
-                        if (strm.config.getBoolean("en")) {
-                            "Chzzk"
-                        } else {
-                            "치지직"
-                        }
-                    }
-                )
+                ?.replace("{msg}", event.message.content)
+                ?.replace("{user}", event.message.profile?.nickname ?: "[ 익명 ]")
+                ?.replace("{paid}", event.message.payAmount.toString())
+                ?.replace("{plat}", getPlatformName())
+                ?.replace(Regex("\\{[^}]*}"), "(이모티콘)")
+                ?: return
 
-            if (message.contains("streamer")) {
-                val player = Bukkit.getPlayer(uuid) ?: return
-                player.sendMessage(Component.text("${channelName}$donationF"))
+            val messageTarget = config.getString("message") ?: "streamer"
+            if (messageTarget.contains("streamer")) {
+                sendMessage(Component.text("$channelName$donationFormat"), player)
 
-                val donationT = strm.config.getString("donation.tformat")
+                val donationTitle = stream.config.getString("donation.tformat")
                     ?.replace("&", "§")
-                    ?.replace("{msg}", msg.content)
-                    ?.replace("{user}", msg.profile?.nickname ?: "[ 익명 ]")
-                    ?.replace("{paid}", msg.payAmount.toString())
-                    ?.replace(
-                        "{plat}", if (strm.config.getBoolean("color")) {
-                            if (kr.apo2073.stream.util.chk.config.getBoolean("en")) {
-                                "§aChzzk§f"
-                            } else {
-                                "§a치지직§f"
-                            }
-                        } else {
-                            if (kr.apo2073.stream.util.chk.config.getBoolean("en")) {
-                                "Chzzk"
-                            } else {
-                                "치지직"
-                            }
-                        }
-                    )
+                    ?.replace("{msg}", event.message.content)
+                    ?.replace("{user}", event.message.profile?.nickname ?: "[ 익명 ]")
+                    ?.replace("{paid}", event.message.payAmount.toString())
+                    ?.replace("{plat}", getPlatformName())
                     ?: return
-                showTitle("", donationT, player)
+                showTitle("", donationTitle, player)
             } else {
-                for (pl in Bukkit.getOnlinePlayers()) {
-                    pl.sendMessage(Component.text("${channelName}${donationF}"))
-                }
+                Bukkit.getOnlinePlayers().forEach { sendMessage(Component.text("$channelName$donationFormat"), it) }
             }
 
-            val sponsorL = config.getStringList("sponsor").toMutableList()
-            sponsorL.add(msg.profile?.nickname ?: "익명 ${Math.random()}")
-            config.set("sponsor", sponsorL)
-            config.save(file)
+            val sponsorList = config.getStringList("sponsor").toMutableList()
+            sponsorList.add(event.message.profile?.nickname ?: "익명 ${Math.random()}")
+            config.set("sponsor", sponsorList)
+            config.save(File("${stream.dataFolder}/chzzk_channel", "$uuid.yml"))
 
-            val dcl = Dconfig.getStringList("donated-channel")
-            if (chat.channelId !in dcl) {
-                dcl.add(chat.channelId)
-            }
-            Dconfig.set("donated-channel", dcl)
-            DconfigSave()
-
-            val player = Bukkit.getPlayer(uuid) ?: return
-            val eventCmd = strm.config.getString("donation-event.${msg.payAmount}") ?: return
-            eventCmd.replace("{player}", player.name)
-                .replace("{msg}", msg.content.toString())
-                .replace("{paid}", msg.payAmount.toString())
+            val eventCommand = stream.config.getString("donation-event.${event.message.payAmount}") ?: return
+            val parsedCommand = eventCommand
+                .replace("{player}", player.name)
+                .replace("{msg}", event.message.content)
+                .replace("{paid}", event.message.payAmount.toString())
                 .replace("{streamer}", player.name)
 
-            if (eventCmd.startsWith("$")) {
-                val commandToRun = eventCmd.removePrefix("$")
-                Bukkit.dispatchCommand(
-                    strm.server.consoleSender,
-                    commandToRun
-                )
+            if (parsedCommand.startsWith("$")) {
+                val command = parsedCommand.removePrefix("$")
+                Bukkit.dispatchCommand(stream.server.consoleSender, command)
             } else {
-                player.performCommandAsOP(eventCmd)
+                player.performCommandAsOP(parsedCommand)
             }
-        } catch (e:Exception) {
+        } catch (e: Exception) {
+            stream.logger.warning("${e.message}")
             e.printStackTrace()
         }
     }
