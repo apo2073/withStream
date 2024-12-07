@@ -25,7 +25,7 @@ class Reload(plugin: JavaPlugin):CommandExecutor {
                             TextDecoration.BOLD)))), sender as Player)
             return true
         }
-        Stream.instance!!.reloadConfig()
+        Stream.instance.reloadConfig()
         sendMessage(Component.text("config 파일을 리로드 했습니다"), sender as Player)
         return true
     }

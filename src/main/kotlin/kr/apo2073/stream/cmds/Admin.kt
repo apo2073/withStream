@@ -1,8 +1,8 @@
 package kr.apo2073.stream.cmds
 
 import kr.apo2073.stream.Stream
-import kr.apo2073.stream.builders.chk
-import kr.apo2073.stream.events.performCommandAsOP
+import kr.apo2073.stream.builders.strm
+import kr.apo2073.stream.util.Managers.performCommandAsOP
 import kr.apo2073.stream.util.Managers.prefix
 import kr.apo2073.stream.util.Managers.sendMessage
 import kr.apo2073.stream.util.Managers.showTitle
@@ -114,7 +114,7 @@ class Admin(private val plugin: JavaPlugin) : TabExecutor {
             Bukkit.getOnlinePlayers().forEach { sendMessage(donationMessage, it) }
         }
 
-        val eventCommand = chk.config.getString("donation-event.$amount") ?: run {
+        val eventCommand = strm.config.getString("donation-event.$amount") ?: run {
             sendMessage(prefix.append(Component.text("해당 이벤트를 찾을 수 없습니다")), sender)
             return
         }
@@ -132,14 +132,14 @@ class Admin(private val plugin: JavaPlugin) : TabExecutor {
 
     private fun createDonationMessage(config: YamlConfiguration, amount: Int): Component {
         val channelName = config.getString("channelName")?.replace("&", "§") ?: "알 수 없는 채널"
-        val donationFormat = chk.config.getString("donation.format")
+        val donationFormat = strm.config.getString("donation.format")
             ?.replace("{msg}", "관리자에 의해 실행됨")
             ?.replace("{user}", "§cADMIN§f")
             ?.replace("{paid}", amount.toString())
             ?.replace("&", "§")
             ?.replace(Regex("\\{[^}]*\\}"), "(이모티콘)") ?: "후원 메시지"
 
-        return Component.text("§l[§r$channelName§f§l]§r $donationFormat")
+        return Component.text("§l[§r $channelName §f§l]§r $donationFormat")
     }
 
     private fun executeEventCommand(player: Player, command: String) {
@@ -156,7 +156,7 @@ class Admin(private val plugin: JavaPlugin) : TabExecutor {
     }
 
     private fun findConfigFile(uuid: java.util.UUID): File? {
-        val directories = listOf("chzzk_channel", "afreeca_channel", "tn_channel")
+        val directories = listOf("chzzk_channel", "afreeca_channel", "tn_channel", "channel")
         return directories.map { File("${plugin.dataFolder}/$it/${uuid}.yml") }.find { it.exists() }
     }
 

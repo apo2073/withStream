@@ -19,10 +19,10 @@
 # {plat} 플렛폼
 # --/채팅/--
 chat:
-  format: "&f {user} : {msg} &7- &l[ {plat} ]"
+  format: "&f {user} : {msg} &7- &r&l[ {plat} ]"
 # --/후원/--
 donation:
-  format: "&e{paid}원 &7>&f{user} &d:: &b{msg} &7- &l&6[ 후원 ]"
+  format: "&e{paid}원 &7>&f{user} &d:: &b{msg} &7- &r&l&6[ 후원 ]"
   view-title: true
   tformat: "&e{paid}&f원 후원!"
 

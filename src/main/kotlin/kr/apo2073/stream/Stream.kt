@@ -1,28 +1,28 @@
 package kr.apo2073.stream
 
+import kr.apo2073.stream.config.ConnectionConfig.removeCconfig
 import com.outstandingboy.donationalert.platform.Toonation
 import kr.apo2073.stream.cmds.Admin
 import kr.apo2073.stream.cmds.ChannelCmds
 import kr.apo2073.stream.cmds.DonationEvent
 import kr.apo2073.stream.cmds.Reload
 import kr.apo2073.stream.events.ChzzkListener
-import kr.apo2073.stream.util.CconfigReload
-import kr.apo2073.stream.util.DconfigReload
-import kr.apo2073.stream.util.removeCconfig
 import me.taromati.afreecatv.AfreecatvAPI
 import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
 import xyz.r2turntrue.chzzk4j.Chzzk
+import xyz.r2turntrue.chzzk4j.ChzzkBuilder
 import xyz.r2turntrue.chzzk4j.chat.ChzzkChat
 import java.util.*
 
-lateinit var chzzk: MutableMap<UUID, Chzzk>
+lateinit var chzzk: Chzzk
 lateinit var cht: MutableMap<UUID, ChzzkChat>
 lateinit var tn: MutableMap<UUID, Toonation>
 lateinit var af:MutableMap<UUID, AfreecatvAPI>
 class Stream : JavaPlugin() {
+    companion object { lateinit var instance: Stream }
+
     override fun onEnable() {
-        if (instance!=null) return
         instance=this
 
         logger.info("""
@@ -41,12 +41,9 @@ class Stream : JavaPlugin() {
             
         """.trimIndent())
 
-
         saveDefaultConfig()
-        DconfigReload()
-        CconfigReload()
 
-        chzzk = mutableMapOf()
+        chzzk = ChzzkBuilder().build()
         cht = mutableMapOf()
         tn= mutableMapOf()
         af= mutableMapOf()
@@ -55,12 +52,8 @@ class Stream : JavaPlugin() {
         Reload(this)
         DonationEvent(this)
         Admin(this)
-        
-        server.pluginManager.registerEvents(ChzzkListener(), this)
-    }
 
-    companion object {
-        var instance: Stream?= null
+        server.pluginManager.registerEvents(ChzzkListener(), this)
     }
 
     override fun onDisable() {

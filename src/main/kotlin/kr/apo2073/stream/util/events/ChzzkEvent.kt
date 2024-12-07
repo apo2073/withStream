@@ -19,7 +19,7 @@ data class ChzzkChatEvent(val message: ChatMessage, val chat:ChzzkChat, val play
     }
 }
 
-data class ChzzkDonationEvent(val message: DonationMessage, val chat:ChzzkChat, val player: Player?) : Event() {
+data class ChzzkDonationEvent(val message: DonationMessage, val chat: ChzzkChat, val player: Player?) : Event() {
     override fun getEventName() = "ChzzkDonationEvent"
     override fun getHandlers(): HandlerList = getHandlerList()
     companion object {

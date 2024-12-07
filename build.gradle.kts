@@ -57,7 +57,6 @@ dependencies {
     implementation("com.squareup.okhttp3:okhttp:4.9.3")
     implementation("com.squareup.retrofit2:retrofit:2.11.0")
     implementation("com.squareup.retrofit2:converter-gson:2.11.0")
-    implementation("org.seleniumhq.selenium:selenium-java:4.26.0")
 
 }
 
@@ -83,13 +82,13 @@ tasks.shadowJar {
     minimize()
     archiveFileName.set("withStream-${version}.jar")
     archiveClassifier.set("all")
-//    destinationDirectory = file("C:\\Users\\PC\\Desktop\\Test_Server\\arclight\\plugins")
+    destinationDirectory = file("C:\\Users\\PC\\Desktop\\Test_Server\\20.1\\plugins")
     mergeServiceFiles()
     dependencies {
         include(dependency(files("libs/AfreecatvLib-master-1.0.3.jar")))
         include(dependency(files("libs/DonationAlertAPI-1.1.0.jar")))
         include(dependency(files("libs/chzzk4j")))
-        include(dependency("com.google.code.gson:gson:2.11.0"))
+        //include(dependency("com.google.code.gson:gson:2.11.0"))
     }
     relocate("com.google.gson", "kr.apo2073.gson")
 }

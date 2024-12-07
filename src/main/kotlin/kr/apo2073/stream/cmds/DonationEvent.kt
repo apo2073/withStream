@@ -14,8 +14,6 @@ import org.bukkit.plugin.java.JavaPlugin
 import java.io.File
 import java.io.IOException
 
-
-
 class DonationEvent(plugin: JavaPlugin): TabExecutor {
     init {
         plugin.getCommand("후원")?.apply {
@@ -23,7 +21,7 @@ class DonationEvent(plugin: JavaPlugin): TabExecutor {
             tabCompleter=this@DonationEvent
         }
     }
-    val strm=Stream.instance!!
+    val strm=Stream.instance
 
     override fun onCommand(sender: CommandSender, p1: Command, p2: String, p3: Array<out String>?): Boolean {
         if (!sender.hasPermission("stream.donation")) {
@@ -69,7 +67,7 @@ class DonationEvent(plugin: JavaPlugin): TabExecutor {
                 }
             }
             2-> {
-                tab.add("Command")
+                tab.add("[실행될명령어]")
             }
         }
         return tab
