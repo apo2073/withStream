@@ -4,7 +4,7 @@ plugins {
 }
 
 group = "kr.apo2073"
-version = "v1.2"
+version = "v1.2.1"
 val relocate = (findProperty("relocate") as? String)?.toBoolean() ?: true
 
 repositories {
@@ -30,6 +30,7 @@ dependencies {
     implementation(files("libs/chzzk4j.jar"))
     implementation(files("libs/DonationAlertAPI-1.1.0.jar"))
     implementation(files("libs/AfreecatvLib-master-1.0.3.jar"))
+    implementation(files("libs/YouTubeLiv-1.1.1.jar"))
 
 //    implementation(gradleApi())
 
@@ -49,10 +50,6 @@ dependencies {
 
     implementation("com.google.code.gson:gson:2.11.0")
     implementation("com.googlecode.json-simple:json-simple:1.1.1")
-    implementation("com.google.api-client:google-api-client:1.33.0")
-    implementation("com.google.oauth-client:google-oauth-client-jetty:1.23.0")
-    implementation("com.google.apis:google-api-services-youtube:v3-rev20230816-2.0.0")
-    implementation("com.google.http-client:google-http-client-jackson2:1.39.2")
 
     implementation("com.squareup.okhttp3:okhttp:4.9.3")
     implementation("com.squareup.retrofit2:retrofit:2.11.0")
@@ -82,13 +79,12 @@ tasks.shadowJar {
     minimize()
     archiveFileName.set("withStream-${version}.jar")
     archiveClassifier.set("all")
-    destinationDirectory = file("C:\\Users\\PC\\Desktop\\Test_Server\\20.1\\plugins")
+    destinationDirectory = file("C:\\Users\\PC\\Desktop\\Test_Server\\plugins")
     mergeServiceFiles()
     dependencies {
         include(dependency(files("libs/AfreecatvLib-master-1.0.3.jar")))
         include(dependency(files("libs/DonationAlertAPI-1.1.0.jar")))
         include(dependency(files("libs/chzzk4j")))
-        //include(dependency("com.google.code.gson:gson:2.11.0"))
     }
     relocate("com.google.gson", "kr.apo2073.gson")
 }

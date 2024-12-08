@@ -9,10 +9,9 @@ import kr.apo2073.stream.config.ConnectionConfig.getConnectionConfig
 import kr.apo2073.stream.config.ConnectionConfig.setConnectionValue
 import kr.apo2073.stream.Stream
 import kr.apo2073.stream.af
-import kr.apo2073.stream.builders.AfBuilder
-import kr.apo2073.stream.builders.ChkBuilder
-import kr.apo2073.stream.builders.TonBuilder
+import kr.apo2073.stream.builders.*
 import kr.apo2073.stream.cht
+import kr.apo2073.stream.config.ConfigManager.removePlat
 import kr.apo2073.stream.tn
 import kr.apo2073.stream.util.Managers.prefix
 import kr.apo2073.stream.util.Managers.sendMessage
@@ -31,7 +30,8 @@ class ChannelCmds(private val plugin: JavaPlugin) : TabExecutor {
     private val platformMap = mapOf(
         "치지직" to "chzzk",
         "투네이션" to "toonation",
-        "아프리카" to "afreeca"
+        "아프리카" to "afreeca",
+        "유튜브" to "youtube"
     )
 
     init {
@@ -57,7 +57,7 @@ class ChannelCmds(private val plugin: JavaPlugin) : TabExecutor {
         }
 
         if (args.isNullOrEmpty()) {
-            sendMessage(prefix.append(Component.text("/플렛폼 등록 <채널 이름> <채널 ID(또는 key)>")), sender)
+            sendMessage(prefix.append(Component.text("/플렛폼 등록 <채널 이름> <Key>")), sender)
             return false
         }
 
@@ -123,6 +123,7 @@ class ChannelCmds(private val plugin: JavaPlugin) : TabExecutor {
             "chzzk" -> ChkBuilder(sender.uniqueId, channelID)
             "toonation" -> TonBuilder(sender.uniqueId, channelID)
             "afreeca" -> AfBuilder(sender.uniqueId, channelID)
+            "youtube" -> YtBuilder(sender.uniqueId, channelID)
         }
     }
 
@@ -140,9 +141,10 @@ class ChannelCmds(private val plugin: JavaPlugin) : TabExecutor {
             "chzzk" -> cht[sender.uniqueId]?.closeBlocking().also { cht.remove(sender.uniqueId) }
             "toonation" -> tn.remove(sender.uniqueId)
             "afreeca" -> af.remove(sender.uniqueId)
+            "youtube" -> yt[sender.uniqueId]?.stop().also { yt.remove(sender.uniqueId) }
         }
 
-        removeConfig(sender)
+        removePlat(sender, platform)
         setConnectionValue(channelID, null)
         connectionSave()
 

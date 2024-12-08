@@ -27,7 +27,7 @@ class DonationEvent(plugin: JavaPlugin): TabExecutor {
         if (!sender.hasPermission("stream.donation")) {
             sendMessage(
                 prefix.append(Component.text("해당 명령어를 실행할 권한이 없습니다")
-                    .hoverEvent(HoverEvent.showText(Component.text("[ 권한 :: §cchk.donation §f]").decorate(TextDecoration.BOLD)))), sender as Player)
+                    .hoverEvent(HoverEvent.showText(Component.text("[ 권한 :: §cstream.donation §f]").decorate(TextDecoration.BOLD)))), sender as Player)
             return true
         }
         if ((p3?.size ?: 0) < 2) {

@@ -67,6 +67,12 @@ object ConfigManager {
             configCache.remove(player)
         }
     }
+
+    fun removePlat(player: Player, platform:String) {
+        val config = getConfig(player)
+        config.set(platform, null)
+        saveConfig(player)
+    }
 }
 
 

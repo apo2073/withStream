@@ -20,13 +20,12 @@ class Reload(plugin: JavaPlugin):CommandExecutor {
         if (!sender.hasPermission("stream.reload")) {
             sendMessage(
                 prefix.append(Component.text("해당 명령어를 실행할 권한이 없습니다")
-                    .hoverEvent(
-                        HoverEvent.showText(Component.text("[ 권한 :: §cchk.reload §f]").decorate(
+                    .hoverEvent(HoverEvent.showText(Component.text("[ 권한 :: §cstream.reload §f]").decorate(
                             TextDecoration.BOLD)))), sender as Player)
             return true
         }
         Stream.instance.reloadConfig()
-        sendMessage(Component.text("config 파일을 리로드 했습니다"), sender as Player)
+        sendMessage(prefix.append(Component.text("config 파일을 리로드 했습니다")), sender as Player)
         return true
     }
 }

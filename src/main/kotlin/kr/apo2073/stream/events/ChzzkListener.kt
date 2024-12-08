@@ -33,7 +33,6 @@ class ChzzkListener : Listener {
     @EventHandler
     fun onChat(event: ChzzkChatEvent) {
         val player = event.player ?: return
-        val uuid = player.uniqueId
         if (!isChattingEnabled) return
 
         try {

@@ -2,6 +2,8 @@ package kr.apo2073.stream
 
 import kr.apo2073.stream.config.ConnectionConfig.removeCconfig
 import com.outstandingboy.donationalert.platform.Toonation
+import kr.apo2073.stream.builders.yt
+import kr.apo2073.stream.builders.yyt
 import kr.apo2073.stream.cmds.Admin
 import kr.apo2073.stream.cmds.ChannelCmds
 import kr.apo2073.stream.cmds.DonationEvent
@@ -36,7 +38,7 @@ class Stream : JavaPlugin() {
                           \/        \/                   \/     \/      \/ 
        
                  
-            §aVersion: v1.2
+            §aVersion: v1.2.1
             §aAuthor: apo2073
             
         """.trimIndent())
@@ -47,6 +49,8 @@ class Stream : JavaPlugin() {
         cht = mutableMapOf()
         tn= mutableMapOf()
         af= mutableMapOf()
+        yt= mutableMapOf()
+        yyt= mutableMapOf()
 
         ChannelCmds(this)
         Reload(this)
@@ -57,12 +61,15 @@ class Stream : JavaPlugin() {
     }
 
     override fun onDisable() {
-        for (player in Bukkit.getOnlinePlayers()) {
-            val uuid=player.uniqueId
-            cht[uuid]?.closeBlocking() ?: continue
-        }
-        removeCconfig()
         Bukkit.getScheduler().cancelTasks(this)
         this.server.scheduler.cancelTasks(this)
+        for (player in Bukkit.getOnlinePlayers()) {
+            val uuid=player.uniqueId
+            cht[uuid]?.closeBlocking().also { cht.remove(uuid) } ?: continue
+            tn.remove(uuid)
+            af.remove(uuid)
+            yt[uuid]?.stop().also { yt.remove(uuid) } ?: continue
+        }
+        removeCconfig()
     }
 }

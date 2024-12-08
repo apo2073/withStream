@@ -156,7 +156,7 @@ class Admin(private val plugin: JavaPlugin) : TabExecutor {
     }
 
     private fun findConfigFile(uuid: java.util.UUID): File? {
-        val directories = listOf("chzzk_channel", "afreeca_channel", "tn_channel", "channel")
+        val directories = listOf("channel")
         return directories.map { File("${plugin.dataFolder}/$it/${uuid}.yml") }.find { it.exists() }
     }
 
