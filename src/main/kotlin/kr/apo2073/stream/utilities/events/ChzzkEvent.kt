@@ -1,4 +1,4 @@
-package kr.apo2073.stream.util.events
+package kr.apo2073.stream.utilities.events
 
 import org.bukkit.entity.Player
 import org.bukkit.event.Event

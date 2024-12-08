@@ -1,4 +1,4 @@
-package kr.apo2073.stream.util
+package kr.apo2073.stream.utilities.versions
 
 import org.bukkit.Bukkit
 

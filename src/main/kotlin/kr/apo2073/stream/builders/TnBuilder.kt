@@ -5,8 +5,8 @@ import kr.apo2073.stream.Stream
 import kr.apo2073.stream.config.ConfigManager.getConfig
 import kr.apo2073.stream.config.ConnectionConfig.connectionSave
 import kr.apo2073.stream.tn
-import kr.apo2073.stream.util.Managers.performCommandAsOP
-import kr.apo2073.stream.util.Managers.showTitle
+import kr.apo2073.stream.utilities.versions.Managers.performCommandAsOP
+import kr.apo2073.stream.utilities.versions.Managers.showTitle
 import net.kyori.adventure.text.Component
 import org.bukkit.Bukkit
 import org.bukkit.configuration.file.FileConfiguration

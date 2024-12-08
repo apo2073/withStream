@@ -1,7 +1,8 @@
-package kr.apo2073.stream.util
+package kr.apo2073.stream.utilities.versions
 
 import kr.apo2073.stream.Stream
 import net.kyori.adventure.text.Component
+import net.kyori.adventure.text.format.NamedTextColor
 import net.kyori.adventure.text.minimessage.MiniMessage
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer
 import net.kyori.adventure.title.Title
@@ -109,6 +110,40 @@ object Managers {
             } catch (e: Exception) {
                 e.printStackTrace()
             }
+        }
+    }
+
+    private const val LOGO = """
+        
+            .__  __  .__      _________ __                                 
+    __  _  _|__|/  |_|  |__  /   _____//  |________   ____ _____    _____  
+    \ \/ \/ /  \   __\  |  \ \_____  \\   __\_  __ \_/ __ \\__  \  /     \ 
+     \     /|  ||  | |   Y  \/        \|  |  |  | \/\  ___/ / __ \|  Y Y  \
+      \/\_/ |__||__| |___|  /_______  /|__|  |__|    \___  >____  /__|_|  /
+                          \/        \/                   \/     \/      \/
+    """
+
+    private const val VERSION_INFO = """
+            Version: v1.2.1
+            Author: apo2073
+    """
+
+    fun printLogo() {
+        try {
+            Stream.instance.server.consoleSender.sendMessage(
+                Component.text(LOGO).append(
+                    Component.text(VERSION_INFO, NamedTextColor.GREEN)
+                )
+            )
+        } catch (e: NoSuchMethodError) {
+            Stream.instance.logger.info(
+                """
+            $LOGO
+            §a$VERSION_INFO
+        """.trimIndent()
+            )
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
     }
 

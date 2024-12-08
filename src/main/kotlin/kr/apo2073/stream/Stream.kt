@@ -1,19 +1,11 @@
 package kr.apo2073.stream
 
-import kr.apo2073.stream.config.ConnectionConfig.removeCconfig
 import com.outstandingboy.donationalert.platform.Toonation
-import kr.apo2073.stream.builders.yt
-import kr.apo2073.stream.builders.yyt
-import kr.apo2073.stream.cmds.Admin
-import kr.apo2073.stream.cmds.ChannelCmds
-import kr.apo2073.stream.cmds.DonationEvent
-import kr.apo2073.stream.cmds.Reload
-import kr.apo2073.stream.events.ChzzkListener
+import kr.apo2073.stream.utilities.Setting
+import kr.apo2073.stream.utilities.versions.Managers.printLogo
 import me.taromati.afreecatv.AfreecatvAPI
-import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
 import xyz.r2turntrue.chzzk4j.Chzzk
-import xyz.r2turntrue.chzzk4j.ChzzkBuilder
 import xyz.r2turntrue.chzzk4j.chat.ChzzkChat
 import java.util.*
 
@@ -26,50 +18,11 @@ class Stream : JavaPlugin() {
 
     override fun onEnable() {
         instance=this
-
-        logger.info("""
-                                
-                        
-            .__  __  .__      _________ __                                 
-    __  _  _|__|/  |_|  |__  /   _____//  |________   ____ _____    _____  
-    \ \/ \/ /  \   __\  |  \ \_____  \\   __\_  __ \_/ __ \\__  \  /     \ 
-     \     /|  ||  | |   Y  \/        \|  |  |  | \/\  ___/ / __ \|  Y Y  \
-      \/\_/ |__||__| |___|  /_______  /|__|  |__|    \___  >____  /__|_|  /
-                          \/        \/                   \/     \/      \/ 
-       
-                 
-            §aVersion: v1.2.1
-            §aAuthor: apo2073
-            
-        """.trimIndent())
-
-        saveDefaultConfig()
-
-        chzzk = ChzzkBuilder().build()
-        cht = mutableMapOf()
-        tn= mutableMapOf()
-        af= mutableMapOf()
-        yt= mutableMapOf()
-        yyt= mutableMapOf()
-
-        ChannelCmds(this)
-        Reload(this)
-        DonationEvent(this)
-        Admin(this)
-
-        server.pluginManager.registerEvents(ChzzkListener(), this)
+        printLogo()
+        Setting(this).onEnable()
     }
 
     override fun onDisable() {
-        Bukkit.getScheduler().cancelTasks(this)
-        this.server.scheduler.cancelTasks(this)
-        for (player in Bukkit.getOnlinePlayers()) {
-            val uuid=player.uniqueId
-            cht[uuid]?.closeBlocking().also { cht.remove(uuid) } ?: continue
-            tn.remove(uuid)
-            af.remove(uuid)
-            yt[uuid]?.stop().also { yt.remove(uuid) } ?: continue
-        }
-        removeCconfig()
+        Setting(this).onDisable()
     }
 }

@@ -5,8 +5,8 @@ import kr.apo2073.stream.config.ConfigManager.getConfig
 import kr.apo2073.stream.config.ConnectionConfig.connectionSave
 import kr.apo2073.stream.config.ConnectionConfig.getConnectionConfig
 import kr.apo2073.stream.events.AfreecaListener
-import kr.apo2073.stream.util.Managers.prefix
-import kr.apo2073.stream.util.Managers.sendMessage
+import kr.apo2073.stream.utilities.versions.Managers.prefix
+import kr.apo2073.stream.utilities.versions.Managers.sendMessage
 import me.taromati.afreecatv.AfreecatvAPI
 import me.taromati.afreecatv.exception.AfreecatvException
 import net.kyori.adventure.text.Component
@@ -32,6 +32,4 @@ fun AfBuilder(uuid:UUID, bjID:String) {
     }
 
 }
-fun afGetName(bjID: String):String {
-    return AfreecatvAPI.getLiveInfo(bjID).bjName
-}
+fun afGetName(bjID: String):String = AfreecatvAPI.getLiveInfo(bjID).bjName

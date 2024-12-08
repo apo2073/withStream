@@ -5,9 +5,9 @@ import kr.apo2073.stream.cht
 import kr.apo2073.stream.chzzk
 import kr.apo2073.stream.config.ConnectionConfig.connectionSave
 import kr.apo2073.stream.config.ConnectionConfig.getConnectionConfig
-import kr.apo2073.stream.util.ChzzkEvents
-import kr.apo2073.stream.util.Managers.prefix
-import kr.apo2073.stream.util.Managers.sendMessage
+import kr.apo2073.stream.utilities.ChzzkEvents
+import kr.apo2073.stream.utilities.versions.Managers.prefix
+import kr.apo2073.stream.utilities.versions.Managers.sendMessage
 import net.kyori.adventure.text.Component
 import org.bukkit.Bukkit
 import org.bukkit.configuration.file.FileConfiguration

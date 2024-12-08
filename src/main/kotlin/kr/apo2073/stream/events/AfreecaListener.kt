@@ -4,10 +4,10 @@ import kr.apo2073.stream.Stream
 import kr.apo2073.stream.chzzk
 import kr.apo2073.stream.config.ConfigManager.getConfig
 import kr.apo2073.stream.config.ConnectionConfig.getConnectionConfig
-import kr.apo2073.stream.util.Managers.performCommandAsOP
-import kr.apo2073.stream.util.Managers.prefix
-import kr.apo2073.stream.util.Managers.sendMessage
-import kr.apo2073.stream.util.Managers.showTitle
+import kr.apo2073.stream.utilities.versions.Managers.performCommandAsOP
+import kr.apo2073.stream.utilities.versions.Managers.prefix
+import kr.apo2073.stream.utilities.versions.Managers.sendMessage
+import kr.apo2073.stream.utilities.versions.Managers.showTitle
 import me.taromati.afreecatv.event.implement.DonationChatEvent
 import me.taromati.afreecatv.event.implement.MessageChatEvent
 import me.taromati.afreecatv.listener.AfreecatvListener

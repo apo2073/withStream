@@ -1,20 +1,19 @@
 package kr.apo2073.stream.cmds
 
+import kr.apo2073.stream.Stream
+import kr.apo2073.stream.af
+import kr.apo2073.stream.builders.*
+import kr.apo2073.stream.cht
 import kr.apo2073.stream.config.ConfigManager.getConfig
-import kr.apo2073.stream.config.ConfigManager.removeConfig
+import kr.apo2073.stream.config.ConfigManager.removePlat
 import kr.apo2073.stream.config.ConfigManager.saveConfig
 import kr.apo2073.stream.config.ConfigManager.setValue
 import kr.apo2073.stream.config.ConnectionConfig.connectionSave
 import kr.apo2073.stream.config.ConnectionConfig.getConnectionConfig
 import kr.apo2073.stream.config.ConnectionConfig.setConnectionValue
-import kr.apo2073.stream.Stream
-import kr.apo2073.stream.af
-import kr.apo2073.stream.builders.*
-import kr.apo2073.stream.cht
-import kr.apo2073.stream.config.ConfigManager.removePlat
 import kr.apo2073.stream.tn
-import kr.apo2073.stream.util.Managers.prefix
-import kr.apo2073.stream.util.Managers.sendMessage
+import kr.apo2073.stream.utilities.versions.Managers.prefix
+import kr.apo2073.stream.utilities.versions.Managers.sendMessage
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.event.HoverEvent
 import net.kyori.adventure.text.format.TextDecoration
