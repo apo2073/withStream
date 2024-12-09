@@ -3,6 +3,7 @@ package kr.apo2073.stream.events
 import kr.apo2073.stream.Stream
 import kr.apo2073.stream.chzzk
 import kr.apo2073.stream.config.ConfigManager.getConfig
+import kr.apo2073.stream.utilities.Donators
 import kr.apo2073.stream.utilities.events.ChzzkChatEvent
 import kr.apo2073.stream.utilities.events.ChzzkDonationEvent
 import kr.apo2073.stream.utilities.versions.Managers.performCommandAsOP
@@ -111,6 +112,8 @@ class ChzzkListener : Listener {
             } else {
                 player.performCommandAsOP(parsedCommand)
             }
+            
+            Donators().addDonator(player, event.message.profile?.nickname ?: return, event.message.payAmount)
         } catch (e: Exception) {
             stream.logger.warning("오류 발생! - ${e.message}")
             e.printStackTrace()

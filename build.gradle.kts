@@ -32,8 +32,6 @@ dependencies {
     implementation(files("libs/AfreecatvLib-master-1.0.3.jar"))
     implementation(files("libs/YouTubeLiv-1.1.1.jar"))
 
-//    implementation(gradleApi())
-
     //implementation("com.github.apo2073:ApoLib:1.0.4")
 
     implementation("org.slf4j:slf4j-api:2.0.7")
@@ -79,11 +77,11 @@ tasks.shadowJar {
     minimize()
     archiveFileName.set("withStream-${version}.jar")
     archiveClassifier.set("all")
-    destinationDirectory = file("C:\\Users\\PC\\Desktop\\Test_Server\\plugins")
+//    destinationDirectory = file("C:\\Users\\PC\\Desktop\\Test_Server\\plugins")
+//    destinationDirectory= file("C:\\Users\\이태수\\Desktop\\server\\plugins")
     mergeServiceFiles()
     dependencies {
         include(dependency(files("libs/AfreecatvLib-master-1.0.3.jar")))
-        include(dependency(files("libs/DonationAlertAPI-1.1.0.jar")))
         include(dependency(files("libs/chzzk4j")))
     }
     relocate("com.google.gson", "kr.apo2073.gson")

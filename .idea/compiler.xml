@@ -10,7 +10,7 @@
         <module name="WithStream.main" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel target="21">
+    <bytecodeTargetLevel target="17">
       <module name="kr.apo2073.WithSteaming.main" target="17" />
       <module name="kr.apo2073.WithSteaming.test" target="17" />
       <module name="WithSteaming" target="17" />

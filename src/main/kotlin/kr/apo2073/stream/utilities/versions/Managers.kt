@@ -61,7 +61,7 @@ object Managers {
                 val sendPacket =
                     connection.javaClass.getMethod("sendPacket", Class.forName(NMSVersion.getPacketClass()))
 
-                if (Stream.instance!!.config.getBoolean("donation.view-title")) {
+                if (Stream.instance.config.getBoolean("donation.view-title")) {
                     sendPacket.invoke(connection, titlePacket)
                     sendPacket.invoke(connection, subtitlePacket)
                 }
@@ -123,8 +123,8 @@ object Managers {
                           \/        \/                   \/     \/      \/
     """
 
-    private const val VERSION_INFO = """
-            Version: v1.2.1
+    private val VERSION_INFO = """
+            Version: v${Stream.instance.getVersion()}
             Author: apo2073
     """
 

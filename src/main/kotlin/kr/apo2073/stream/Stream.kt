@@ -15,6 +15,7 @@ lateinit var tn: MutableMap<UUID, Toonation>
 lateinit var af:MutableMap<UUID, AfreecatvAPI>
 class Stream : JavaPlugin() {
     companion object { lateinit var instance: Stream }
+    fun getVersion():String="1.2.1"
 
     override fun onEnable() {
         instance=this

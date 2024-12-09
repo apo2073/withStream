@@ -4,6 +4,7 @@ import kr.apo2073.stream.Stream
 import kr.apo2073.stream.chzzk
 import kr.apo2073.stream.config.ConfigManager.getConfig
 import kr.apo2073.stream.config.ConnectionConfig.getConnectionConfig
+import kr.apo2073.stream.utilities.Donators
 import kr.apo2073.stream.utilities.versions.Managers.performCommandAsOP
 import kr.apo2073.stream.utilities.versions.Managers.sendMessage
 import kr.apo2073.stream.utilities.versions.Managers.showTitle
@@ -106,6 +107,8 @@ class YouTubeListener: YouTubeEventListener {
             } else {
                 player.performCommandAsOP(parsedCommand)
             }
+            
+            Donators().addDonator(player, superChat.author().name, superChat.amount.toIntOrNull() ?: return)
         } catch (e: Exception) {
             stream.logger.warning("오류 발생! - ${e.message}")
             e.printStackTrace()

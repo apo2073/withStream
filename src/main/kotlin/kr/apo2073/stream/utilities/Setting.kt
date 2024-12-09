@@ -9,6 +9,7 @@ import kr.apo2073.stream.cmds.DonationEvent
 import kr.apo2073.stream.cmds.Reload
 import kr.apo2073.stream.config.ConnectionConfig.removeCconfig
 import kr.apo2073.stream.events.ChzzkListener
+import kr.apo2073.stream.utilities.papi.StrmPapi
 import org.bukkit.Bukkit
 import xyz.r2turntrue.chzzk4j.ChzzkBuilder
 
@@ -29,6 +30,10 @@ class Setting(var strm:Stream) {
         Admin(strm)
 
         strm.server.pluginManager.registerEvents(ChzzkListener(), strm)
+        
+        if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI")!=null) {
+            StrmPapi().register()
+        }
     }
     fun onDisable() {
         Bukkit.getScheduler().cancelTasks(strm)
