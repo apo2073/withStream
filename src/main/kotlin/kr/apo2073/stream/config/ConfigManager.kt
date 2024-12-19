@@ -46,7 +46,7 @@ object ConfigManager {
         }
     }
 
-    fun setValue(player: Player, path: String, value: Any) {
+    fun setValue(player: Player, path: String, value: Any?) {
         val config = getConfig(player)
         config.set(path, value)
         saveConfig(player)

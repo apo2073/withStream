@@ -17,6 +17,7 @@ import kr.apo2073.stream.utilities.versions.Managers.sendMessage
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.event.HoverEvent
 import net.kyori.adventure.text.format.TextDecoration
+import org.bukkit.Bukkit
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.command.TabExecutor
@@ -104,7 +105,7 @@ class ChannelCmds(private val plugin: JavaPlugin) : TabExecutor {
             return
         }
 
-        if (cht[sender.uniqueId] != null || tn[sender.uniqueId] != null) {
+        if (getConfig(sender).get(getPlatform(label))!=null) {
             sendMessage(prefix.append(Component.text("한 채널만 등록할 수 있습니다")), sender)
             return
         }
@@ -137,7 +138,8 @@ class ChannelCmds(private val plugin: JavaPlugin) : TabExecutor {
         val channelID = config.getString("$platform.channelID") ?: return
 
         when (platform) {
-            "chzzk" -> cht[sender.uniqueId]?.closeBlocking().also { cht.remove(sender.uniqueId) }
+            "chzzk" -> cht[sender.uniqueId]?.closeBlocking()
+                .also { cht.remove(sender.uniqueId) }
             "toonation" -> tn.remove(sender.uniqueId)
             "afreeca" -> af.remove(sender.uniqueId)
             "youtube" -> yt[sender.uniqueId]?.stop().also { yt.remove(sender.uniqueId) }
@@ -146,7 +148,7 @@ class ChannelCmds(private val plugin: JavaPlugin) : TabExecutor {
         removePlat(sender, platform)
         setConnectionValue(channelID, null)
         connectionSave()
-
+        setValue(sender, platform, null)
         sendMessage(prefix.append(Component.text("채널 ${channelName}을(를) 연결 해제했습니다")), sender)
     }
 

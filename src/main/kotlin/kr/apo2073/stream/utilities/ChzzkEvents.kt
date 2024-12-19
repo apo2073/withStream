@@ -1,6 +1,7 @@
 package kr.apo2073.stream.utilities
 
 import kr.apo2073.stream.Stream
+import kr.apo2073.stream.config.ConfigManager.setValue
 import kr.apo2073.stream.config.ConnectionConfig.getConnectionConfig
 import kr.apo2073.stream.utilities.events.ChzzkChatEvent
 import kr.apo2073.stream.utilities.events.ChzzkDonationEvent
@@ -17,7 +18,8 @@ class ChzzkEvents: ChatEventListener {
     override fun onChat(msg: ChatMessage, chat: ChzzkChat) {
         strm.server.scheduler.runTask(strm, Runnable {
             val uuid = UUID.fromString(getConnectionConfig().getString(chat.channelId) ?: return@Runnable)
-            Bukkit.getPluginManager().callEvent(ChzzkChatEvent(msg, chat, Bukkit.getPlayer(uuid) ?: run {
+            Bukkit.getPluginManager().callEvent(ChzzkChatEvent(msg, chat,
+                Bukkit.getPlayer(uuid) ?: run {
                 return@Runnable
             }))
         })
@@ -26,7 +28,8 @@ class ChzzkEvents: ChatEventListener {
     override fun onDonationChat(msg: DonationMessage, chat: ChzzkChat) {
         strm.server.scheduler.runTask(strm, Runnable {
             val uuid = UUID.fromString(getConnectionConfig().getString(chat.channelId) ?: return@Runnable)
-            Bukkit.getPluginManager().callEvent(ChzzkDonationEvent(msg, chat, Bukkit.getPlayer(uuid) ?: run {
+            Bukkit.getPluginManager().callEvent(ChzzkDonationEvent(msg, chat,
+                Bukkit.getPlayer(uuid) ?: run {
                 return@Runnable
             }))
         })

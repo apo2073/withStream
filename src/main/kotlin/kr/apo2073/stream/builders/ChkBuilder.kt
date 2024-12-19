@@ -19,15 +19,17 @@ import java.util.*
 fun ChkBuilder(uuid: UUID, id: String) {
     val player= Bukkit.getPlayer(uuid) ?:return
     try {
+        val file= File("${Stream.instance.dataFolder}/channel", "${uuid}.yml")
+        val config: FileConfiguration = YamlConfiguration.loadConfiguration(file)
         val chz= chzzk
         var cht= cht[uuid]
         val ch= chz.getChannel(id)
         cht = chz.chat(id)?.withChatListener(ChzzkEvents())?.build()
         cht?.connectBlocking()
-        sendMessage(prefix.append(Component.text("채널 ${ch?.channelName}( ${ch?.followerCount} 팔로워 )에 연결했습니다")), player)
-
-        val file= File("${Stream.instance.dataFolder}/channel", "${uuid}.yml")
-        val config: FileConfiguration = YamlConfiguration.loadConfiguration(file)
+        sendMessage(
+            prefix.append(Component.text("채널 ${ch?.channelName}( ${ch?.followerCount} 팔로워 )에 연결했습니다")),
+            player
+        )
         config.save(file)
 
     }catch (e:ChannelNotExistsException) {

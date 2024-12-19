@@ -1,7 +1,6 @@
 package kr.apo2073.stream.cmds
 
 import kr.apo2073.stream.Stream
-import kr.apo2073.stream.builders.strm
 import kr.apo2073.stream.utilities.versions.Managers.performCommandAsOP
 import kr.apo2073.stream.utilities.versions.Managers.prefix
 import kr.apo2073.stream.utilities.versions.Managers.sendMessage
@@ -114,12 +113,12 @@ class Admin(private val plugin: JavaPlugin) : TabExecutor {
             Bukkit.getOnlinePlayers().forEach { sendMessage(donationMessage, it) }
         }
 
-        val eventCommand = strm.config.getString("donation-event.$amount") ?: run {
+        val eventCommand = Stream.instance.config.getString("donation-event.$amount") ?: run {
             sendMessage(prefix.append(Component.text("해당 이벤트를 찾을 수 없습니다")), sender)
             return
         }
 
-        val donationTitle = Stream.instance!!.config.getString("donation.tformat")
+        val donationTitle = Stream.instance.config.getString("donation.tformat")
             ?.replace("&", "§")
             ?.replace("{msg}", "관리자에 의해 실행됨")
             ?.replace("{user}", "§cADMIN§f")
@@ -132,7 +131,7 @@ class Admin(private val plugin: JavaPlugin) : TabExecutor {
 
     private fun createDonationMessage(config: YamlConfiguration, amount: Int): Component {
         val channelName = config.getString("channelName")?.replace("&", "§") ?: "알 수 없는 채널"
-        val donationFormat = strm.config.getString("donation.format")
+        val donationFormat = Stream.instance.config.getString("donation.format")
             ?.replace("{msg}", "관리자에 의해 실행됨")
             ?.replace("{user}", "§cADMIN§f")
             ?.replace("{paid}", amount.toString())

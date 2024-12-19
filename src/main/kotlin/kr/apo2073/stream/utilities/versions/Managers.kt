@@ -124,7 +124,7 @@ object Managers {
     """
 
     private val VERSION_INFO = """
-            Version: v${Stream.instance.getVersion()}
+            Version: ${Stream.instance.getVersion()}
             Author: apo2073
     """
 

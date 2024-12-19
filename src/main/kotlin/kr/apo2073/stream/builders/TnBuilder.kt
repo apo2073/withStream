@@ -14,7 +14,14 @@ import org.bukkit.configuration.file.YamlConfiguration
 import java.io.File
 import java.util.*
 
-val strm=Stream.instance
+private val strm=Stream.instance
+private val enableColor = strm.config.getBoolean("color")
+private val isChattingEnabled = strm.config.getBoolean("채팅")
+private val isDonationEnabled = strm.config.getBoolean("후원")
+private fun platformName():String {
+    val platform = if (strm.config.getBoolean("en")) "Toonation" else "투네이션"
+    return if (enableColor) "§b$platform§f" else platform
+}
 fun TonBuilder(uuid: UUID, key: String) {
     try {
         tn[uuid] = Toonation(key)
@@ -22,7 +29,7 @@ fun TonBuilder(uuid: UUID, key: String) {
         connectionSave()
 
         tn[uuid]?.subscribeMessage { m ->
-            if (!strm.config.getBoolean("채널")) return@subscribeMessage
+            if (!isChattingEnabled) return@subscribeMessage
             val config: FileConfiguration = getConfig(Bukkit.getPlayer(uuid) ?: return@subscribeMessage)
             val message = config.getString("message") ?: "streamer"
             strm.reloadConfig()
@@ -40,20 +47,7 @@ fun TonBuilder(uuid: UUID, key: String) {
                     "{user}", m.nickName ?: "[ 익명 ]"
                 )
                 .replace(
-                    "{plat}", if (strm.config.getBoolean("color")) {
-                        if (strm.config.getBoolean("en")) {
-                            "§bToonation§f"
-                        } else {
-                            "§b투네이션§f"
-                        }
-                    } else {
-                        if (strm.config.getBoolean("en")) {
-                            "Toonation"
-                        } else {
-                            "투네이션"
-                        }
-                    }
-                )
+                    "{plat}", platformName())
                 .replace(Regex("\\{[^}]*\\}"), "§7(이모티콘)§f").trim()
             val channelName = "§l[ §r${
                 config.getString("channelName")?.replace("&", "§")
@@ -68,8 +62,8 @@ fun TonBuilder(uuid: UUID, key: String) {
         }
 
         tn[uuid]?.subscribeDonation { d ->
-            if (!strm.config.getBoolean("후원")) return@subscribeDonation
-            val file = File("${strm.dataFolder}/chzzk_channel", "${uuid}.yml")
+            if (!isDonationEnabled) return@subscribeDonation
+            val file = File("${strm.dataFolder}/channel", "${uuid}.yml")
             if (!file.exists()) return@subscribeDonation
             val config: FileConfiguration = YamlConfiguration.loadConfiguration(file)
             val message = config.getString("message")
@@ -82,21 +76,7 @@ fun TonBuilder(uuid: UUID, key: String) {
                 ?.replace("{user}", d.nickName ?: "[ 익명 ]")
                 ?.replace("{chs}", d.amount.toString())
                 ?.replace(Regex("\\{[^}]*\\}"), "(이모티콘)")?.trim()
-                ?.replace(
-                    "{plat}", if (strm.config.getBoolean("color")) {
-                        if (strm.config.getBoolean("en")) {
-                            "§bToonation§f"
-                        } else {
-                            "§b투네이션§f"
-                        }
-                    } else {
-                        if (strm.config.getBoolean("en")) {
-                            "Toonation"
-                        } else {
-                            "투네이션"
-                        }
-                    }
-                )
+                ?.replace("{plat}", platformName())
 
             if (message == "streamer") {
                 val player = Bukkit.getPlayer(uuid) ?: return@subscribeDonation
@@ -107,21 +87,7 @@ fun TonBuilder(uuid: UUID, key: String) {
                     ?.replace("{msg}", d.comment)
                     ?.replace("{user}", d.nickName ?: "[ 익명 ]")
                     ?.replace("{chs}", d.amount.toString())
-                    ?.replace(
-                        "{plat}", if (strm.config.getBoolean("color")) {
-                            if (strm.config.getBoolean("en")) {
-                                "§bToonation§f"
-                            } else {
-                                "§b투네이션§f"
-                            }
-                        } else {
-                            if (strm.config.getBoolean("en")) {
-                                "Toonation"
-                            } else {
-                                "투네이션"
-                            }
-                        }
-                    )
+                    ?.replace("{plat}", platformName())
                     ?: return@subscribeDonation
                 showTitle("", donationT, player)
             } else {

@@ -66,7 +66,6 @@ class ChzzkListener : Listener {
     @EventHandler
     fun onDonation(event: ChzzkDonationEvent) {
         val player = event.player ?: return
-        val uuid = player.uniqueId
         if (!isDonationEnabled) return
 
         try {
